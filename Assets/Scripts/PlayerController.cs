@@ -48,7 +48,11 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 lookAt = new Vector3(input.x, 0, input.z);
         if(lookAt != Vector3.zero){
-            transform.rotation = Quaternion.LookRotation(lookAt);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                Quaternion.LookRotation(lookAt),
+                10.0f
+            );
         }
 
 		if(Input.GetKeyDown(KeyCode.Space)){
