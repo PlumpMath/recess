@@ -70,11 +70,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4116361447707616}
   - component: {fileID: 33246749954569736}
-  - component: {fileID: 136769015879096044}
   - component: {fileID: 23118547309813984}
   - component: {fileID: 114100316664201700}
   - component: {fileID: 114811530397269414}
   - component: {fileID: 114920452369802036}
+  - component: {fileID: 143351785507843214}
+  - component: {fileID: 54371664399740228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -260,6 +261,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1322290112940114}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54371664399740228
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613798673926932}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65556969462535410
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -339,8 +355,8 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!136 &136769015879096044
-CapsuleCollider:
+--- !u!143 &143351785507843214
+CharacterController:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -348,7 +364,11 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  serializedVersion: 2
   m_Height: 2
-  m_Direction: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
