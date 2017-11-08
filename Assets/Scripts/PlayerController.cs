@@ -40,11 +40,14 @@ public class PlayerController : NetworkBehaviour
 			return;
 		}
 
-        Vector3 input = GetInputRelativeToCamera();
-        character.Move(input * Time.deltaTime);
+        Vector3 input = GetInputRelativeToCamera() * Time.deltaTime;
+        input.y -= 1.0f;
 
-        if(input != Vector3.zero){
-            transform.rotation = Quaternion.LookRotation(input);
+        character.Move(input * 3.0f);
+
+        Vector3 lookAt = new Vector3(input.x, 0, input.z);
+        if(lookAt != Vector3.zero){
+            transform.rotation = Quaternion.LookRotation(lookAt);
         }
 
 		if(Input.GetKeyDown(KeyCode.Space)){
