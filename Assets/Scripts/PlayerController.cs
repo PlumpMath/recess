@@ -44,6 +44,7 @@ public class PlayerController : NetworkBehaviour
         input.y -= 1.0f;
 
         character.Move(input * 3.0f);
+        mainCamera.transform.LookAt(transform);
 
         Vector3 lookAt = new Vector3(input.x, 0, input.z);
         if(lookAt != Vector3.zero){
