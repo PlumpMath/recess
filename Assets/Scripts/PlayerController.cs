@@ -7,38 +7,27 @@ public class PlayerController : NetworkBehaviour
     private CharacterController character;
 	public GameObject bulletPrefab;
 	public Transform bulletSpawn;
-    public float jumpSpeed = 10.0F;
-    public float gravity;
-    public float speed = 3.0F;
 
-	Vector3 GetInputRelativeToCamera()
-    {
-        float horizontalAxis = Input.GetAxis("Horizontal");
-        float verticalAxis = Input.GetAxis("Vertical");
 
-        if (horizontalAxis == 0 && verticalAxis == 0)
-        {
-            return Vector3.zero;
-        }
+    public float jumpSpeed = 10.0f;
+    public float gravity = 7.0f;
+    public float speed = 3.0f;
+    public float jumpTime = 1.0f;
 
-        Vector3 forward = mainCamera.transform.forward;
-        Vector3 right = mainCamera.transform.right;
+    private bool IsJumping = false;
 
-        forward.y = 0f;
-        right.y = 0f;
-        forward.Normalize();
-        right.Normalize();
+    void Jump(){
+        IsJumping = true;
+        Invoke("FinishJump", jumpTime);
+    }
 
-        return forward * verticalAxis + right * horizontalAxis;
+    void FinishJump(){
+        IsJumping = false;
     }
 
 	void Awake(){
 		mainCamera = Camera.main;
         character = GetComponent<CharacterController>();
-	}
-
-    void Start() {
-        gravity = 2.0f;
 	}
 
     void Update()
@@ -59,10 +48,17 @@ public class PlayerController : NetworkBehaviour
         }
 
         if (character.isGrounded && Input.GetKeyDown(KeyCode.Space)) {
-            moveDirection.y += jumpSpeed * Time.deltaTime;
+            Jump();
+        } else if(IsJumping && Input.GetKeyUp(KeyCode.Space)){
+            CancelInvoke("FinishJump");
+            FinishJump();
         }
 
-        moveDirection.y -= gravity * Time.deltaTime;
+        float dY = -gravity;
+        if(IsJumping){
+            dY = jumpSpeed;
+        }
+        moveDirection.y = dY * Time.deltaTime;
         character.Move(moveDirection * speed);
 
         //Current jump + this code = puke-town when the camera jumps
@@ -85,5 +81,26 @@ public class PlayerController : NetworkBehaviour
 	public override void OnStartLocalPlayer()
     {
         GetComponent<MeshRenderer>().material.color = Color.blue;
+    }
+
+    Vector3 GetInputRelativeToCamera()
+    {
+        float horizontalAxis = Input.GetAxis("Horizontal");
+        float verticalAxis = Input.GetAxis("Vertical");
+
+        if (horizontalAxis == 0 && verticalAxis == 0)
+        {
+            return Vector3.zero;
+        }
+
+        Vector3 forward = mainCamera.transform.forward;
+        Vector3 right = mainCamera.transform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+
+        return forward * verticalAxis + right * horizontalAxis;
     }
 }
