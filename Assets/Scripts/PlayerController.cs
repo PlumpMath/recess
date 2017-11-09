@@ -1,37 +1,36 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Collections.Generic;
+
+[System.Serializable]
+public struct PlayerMovement{
+    public float WalkSpeed;
+    public float RunSpeed;
+    public float FallSpeed;
+    public float JumpSpeed;
+    public float JumpTime;
+}
 
 public class PlayerController : NetworkBehaviour
 {
     private CharacterController character;
-	public GameObject bulletPrefab;
-	public Transform bulletSpawn;
+    private HandController hand;
+    public PlayerMovement movementSettings;
 
-    public GameObject ballPrefab;
-    public Transform ballSpawn;
-    public float ballPower;
-    private bool HasBall = false;
-
-    public float jumpSpeed = 10.0f;
-    public float gravity = 7.0f;
-    public float speed = 3.0f;
-    public float jumpTime = 1.0f;
+    private List<GameObject> HoldableItems;
 
     private bool IsJumping = false;
-    private float groundLevel;
-
-    void Jump(){
-        IsJumping = true;
-        Invoke("FinishJump", jumpTime);
-    }
-
-    void FinishJump(){
-        IsJumping = false;
-    }
 
 	void Awake(){
         character = GetComponent<CharacterController>();
+        hand = GetComponent<HandController>();
+        HoldableItems = new List<GameObject>();
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 
     void Update()
@@ -42,7 +41,6 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
         Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
-
 
         if(lookAt != Vector3.zero){
             transform.rotation = Quaternion.RotateTowards(
@@ -59,46 +57,41 @@ public class PlayerController : NetworkBehaviour
             FinishJump();
         }
 
-        float dY = -gravity;
+        if(Input.GetMouseButtonDown(0)){
+            if(hand.HeldObject != null){
+                hand.ReleaseItem();
+            } else {
+                int count = HoldableItems.Count;
+                if (count > 0)
+                {
+                    GameObject itemToGrab = HoldableItems[count - 1];
+                    hand.GrabItem(itemToGrab);
+                    HoldableItems.Remove(itemToGrab);
+                }
+            }
+        }
+
+        float dY = -movementSettings.FallSpeed;
         if(IsJumping){
-            dY = jumpSpeed;
+            dY = movementSettings.JumpSpeed;
         }
         moveDirection.y = dY * Time.deltaTime;
-        character.Move(moveDirection * speed);
+        character.Move(moveDirection * movementSettings.WalkSpeed);
 
-		if(Input.GetKeyDown(KeyCode.LeftShift)){
-			CmdFire();
-		}
-
-        if (HasBall && Input.GetMouseButtonDown(0)){
-            HasBall = false;
-            ThrowBall();
-        }
     }
 
-	[Command]
-	void CmdFire(){
-		GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-		bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
-		NetworkServer.Spawn(bullet);
-
-		Destroy(bullet, 2.0f);
-	}
-
-    void ThrowBall(){
-        GameObject ball = Instantiate(ballPrefab, ballSpawn.position, ballSpawn.rotation);
-        ball.GetComponent<Rigidbody>().velocity = ball.transform.forward * ballPower;
-        NetworkServer.Spawn(ball);
-        TextController.instance.ballText.text = "Get a Ball!";
-    }
-
-    public override void OnStartLocalPlayer()
+    void Jump()
     {
-        GetComponent<MeshRenderer>().material.color = Color.blue;
+        IsJumping = true;
+        Invoke("FinishJump", movementSettings.JumpTime);
     }
 
-    Vector3 GetInputRelativeToCamera()
+    void FinishJump()
     {
+        IsJumping = false;
+    }
+
+    Vector3 GetInputRelativeToCamera(){
         float horizontalAxis = Input.GetAxis("Horizontal");
         float verticalAxis = Input.GetAxis("Vertical");
 
@@ -118,16 +111,15 @@ public class PlayerController : NetworkBehaviour
         return forward * verticalAxis + right * horizontalAxis;
     }
 
-    void OnControllerColliderHit(ControllerColliderHit col) {
-        if (col.gameObject.CompareTag("Ball")){
-            HasBall = true;
-            SetBallText();
+    void OnTriggerEnter(Collider other){
+        if(other.GetComponent<HoldableItem>()){
+            HoldableItems.Add(other.gameObject);
         }
     }
 
-    void SetBallText(){
-        if(HasBall){
-            TextController.instance.ballText.text = "You Have a Ball!";
+    void OnTriggerExit(Collider other){
+        if(HoldableItems.Contains(other.gameObject)){
+            HoldableItems.Remove(other.gameObject);
         }
     }
 }
