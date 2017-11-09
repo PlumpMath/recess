@@ -15,6 +15,29 @@ public class PlayerController : NetworkBehaviour
     public float jumpTime = 1.0f;
 
     private bool IsJumping = false;
+    private float groundLevel;
+
+    public float cameraMinX = 3.0f;
+    public float cameraMaxX = 10.0f;
+    public float cameraMinY = -0.5f;
+    public float cameraMaxY = 6.0f;
+
+    private float cameraDistance = 0.5f;
+    private float cameraAngle = 0.0f;
+
+    Vector3 CameraPosition(){
+        float t = Mathf.Repeat(cameraAngle + Mathf.PI, Mathf.PI * 2.0f);
+        float discY = Mathf.Lerp(cameraMinY, cameraMaxY, cameraDistance);
+        float discR = Mathf.Lerp(cameraMinX, cameraMaxX, cameraDistance);
+
+        Vector3 me = transform.position;
+
+        return me + new Vector3(
+            Mathf.Sin(t) * discR,
+            discY,
+            Mathf.Cos(t) * discR
+        );
+    }
 
     void Jump(){
         IsJumping = true;
@@ -39,6 +62,10 @@ public class PlayerController : NetworkBehaviour
         Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
         Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
 
+        cameraAngle += Input.GetAxis("Mouse X") * 0.25f;
+        cameraAngle = Mathf.Repeat(cameraAngle, Mathf.PI * 2.0f);
+        cameraDistance = Mathf.Clamp01(cameraDistance + (Input.mouseScrollDelta.y * 0.05f));
+
         if(lookAt != Vector3.zero){
             transform.rotation = Quaternion.RotateTowards(
                 transform.rotation,
@@ -61,8 +88,8 @@ public class PlayerController : NetworkBehaviour
         moveDirection.y = dY * Time.deltaTime;
         character.Move(moveDirection * speed);
 
-        //Current jump + this code = puke-town when the camera jumps
-        //mainCamera.transform.LookAt(transform);
+        mainCamera.transform.position = CameraPosition();
+        mainCamera.transform.LookAt(new Vector3(transform.position.x, 1.0f, transform.position.z));
 
 		if(Input.GetKeyDown(KeyCode.LeftShift)){
 			CmdFire();
