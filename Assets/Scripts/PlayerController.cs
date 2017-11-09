@@ -48,20 +48,25 @@ public class PlayerController : NetworkBehaviour
 		}
 
         Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
-
         Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
+
         if(lookAt != Vector3.zero){
-            transform.rotation = Quaternion.LookRotation(lookAt);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                Quaternion.LookRotation(lookAt),
+                10.0f
+            );
         }
 
-        if (character.isGrounded) {
-            if (Input.GetKeyDown(KeyCode.Space)){
-                moveDirection.y += jumpSpeed * Time.deltaTime;
-            }
+        if (character.isGrounded && Input.GetKeyDown(KeyCode.Space)) {
+            moveDirection.y += jumpSpeed * Time.deltaTime;
         }
 
         moveDirection.y -= gravity * Time.deltaTime;
         character.Move(moveDirection * speed);
+
+        //Current jump + this code = puke-town when the camera jumps
+        //mainCamera.transform.LookAt(transform);
 
 		if(Input.GetKeyDown(KeyCode.LeftShift)){
 			CmdFire();
