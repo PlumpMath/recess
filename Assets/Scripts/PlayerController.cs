@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour
@@ -7,6 +7,9 @@ public class PlayerController : NetworkBehaviour
     private CharacterController character;
 	public GameObject bulletPrefab;
 	public Transform bulletSpawn;
+    public float jumpSpeed = 10.0F;
+    public float gravity;
+    public float speed = 3.0F;
 
 	Vector3 GetInputRelativeToCamera()
     {
@@ -34,28 +37,36 @@ public class PlayerController : NetworkBehaviour
         character = GetComponent<CharacterController>();
 	}
 
+    void Start() {
+        gravity = 2.0f;
+	}
+
     void Update()
     {
 		if(!isLocalPlayer){
 			return;
 		}
 
-        Vector3 input = GetInputRelativeToCamera() * Time.deltaTime;
-        input.y -= 1.0f;
+        Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
 
-        character.Move(input * 3.0f);
-        mainCamera.transform.LookAt(transform);
-
-        Vector3 lookAt = new Vector3(input.x, 0, input.z);
+        Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
         if(lookAt != Vector3.zero){
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                Quaternion.LookRotation(lookAt),
-                10.0f
-            );
+            transform.rotation = Quaternion.LookRotation(lookAt);
         }
 
-		if(Input.GetKeyDown(KeyCode.Space)){
+        if (character.isGrounded) {
+            if (Input.GetKeyDown(KeyCode.Space)){
+                moveDirection.y += jumpSpeed * Time.deltaTime;
+                transform.rotation,
+                Quaternion.LookRotation(lookAt),
+            }
+            );
+        }
+        
+        moveDirection.y -= gravity * Time.deltaTime;
+        character.Move(moveDirection * speed);
+
+		if(Input.GetKeyDown(KeyCode.LeftShift)){
 			CmdFire();
 		}
     }
