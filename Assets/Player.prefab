@@ -320,7 +320,7 @@ MonoBehaviour:
   bulletSpawn: {fileID: 4247823588217172}
   jumpSpeed: 8
   gravity: 7
-  speed: 3
+  speed: 6
   jumpTime: 0.2
   cameraMinX: 3
   cameraMaxX: 10
