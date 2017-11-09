@@ -318,6 +318,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1132863226102520, guid: 7b16b1fb957c94e269b94d3cc63033bc,
     type: 2}
   bulletSpawn: {fileID: 4247823588217172}
+  ballPrefab: {fileID: 1392260789366068, guid: 122789630474f7749a65f91cfee19f3e, type: 2}
+  ballSpawn: {fileID: 4247823588217172}
+  ballPower: 40
   jumpSpeed: 8
   gravity: 7
   speed: 6
