@@ -30,7 +30,11 @@ public class PlayerController : NetworkBehaviour
         float discY = Mathf.Lerp(cameraMinY, cameraMaxY, cameraDistance);
         float discR = Mathf.Lerp(cameraMinX, cameraMaxX, cameraDistance);
 
-        Vector3 me = transform.position;
+        Vector3 me = new Vector3(
+            transform.position.x,
+            0f,
+            transform.position.z
+        );
 
         return me + new Vector3(
             Mathf.Sin(t) * discR,
