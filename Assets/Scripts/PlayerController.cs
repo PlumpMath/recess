@@ -11,6 +11,7 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject ballPrefab;
     public Transform ballSpawn;
+    public float ballPower;
     private bool HasBall = false;
 
     public float jumpSpeed = 10.0f;
@@ -121,7 +122,7 @@ public class PlayerController : NetworkBehaviour
 
     void ThrowBall(){
         GameObject ball = Instantiate(ballPrefab, ballSpawn.position, ballSpawn.rotation);
-        ball.GetComponent<Rigidbody>().velocity = ball.transform.forward * 20;
+        ball.GetComponent<Rigidbody>().velocity = ball.transform.forward * ballPower;
         NetworkServer.Spawn(ball);
         TextController.instance.ballText.text = "Get a Ball!";
     }
