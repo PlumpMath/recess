@@ -70,11 +70,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4116361447707616}
   - component: {fileID: 33246749954569736}
-  - component: {fileID: 136769015879096044}
   - component: {fileID: 23118547309813984}
   - component: {fileID: 114100316664201700}
   - component: {fileID: 114811530397269414}
   - component: {fileID: 114920452369802036}
+  - component: {fileID: 143351785507843214}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -318,6 +318,14 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1132863226102520, guid: 7b16b1fb957c94e269b94d3cc63033bc,
     type: 2}
   bulletSpawn: {fileID: 4247823588217172}
+  jumpSpeed: 8
+  gravity: 7
+  speed: 3
+  jumpTime: 0.2
+  cameraMinX: 3
+  cameraMaxX: 10
+  cameraMinY: -0.2
+  cameraMaxY: 6
 --- !u!114 &114920452369802036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -339,8 +347,8 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!136 &136769015879096044
-CapsuleCollider:
+--- !u!143 &143351785507843214
+CharacterController:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -348,7 +356,11 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  serializedVersion: 2
   m_Height: 2
-  m_Direction: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
