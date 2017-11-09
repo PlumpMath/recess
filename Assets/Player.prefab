@@ -322,6 +322,10 @@ MonoBehaviour:
   gravity: 7
   speed: 3
   jumpTime: 0.2
+  cameraMinX: 3
+  cameraMaxX: 10
+  cameraMinY: -0.2
+  cameraMaxY: 6
 --- !u!114 &114920452369802036
 MonoBehaviour:
   m_ObjectHideFlags: 1
