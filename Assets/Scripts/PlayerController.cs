@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour
@@ -8,6 +9,9 @@ public class PlayerController : NetworkBehaviour
 	public GameObject bulletPrefab;
 	public Transform bulletSpawn;
 
+    public GameObject ballPrefab;
+    public Transform ballSpawn;
+    private bool HasBall = false;
 
     public float jumpSpeed = 10.0f;
     public float gravity = 7.0f;
@@ -55,7 +59,7 @@ public class PlayerController : NetworkBehaviour
 	void Awake(){
 		mainCamera = Camera.main;
         character = GetComponent<CharacterController>();
-	}
+    }
 
     void Update()
     {
@@ -98,6 +102,11 @@ public class PlayerController : NetworkBehaviour
 		if(Input.GetKeyDown(KeyCode.LeftShift)){
 			CmdFire();
 		}
+        
+        if (HasBall && Input.GetMouseButtonDown(0)){
+            HasBall = false;
+            ThrowBall();
+        }
     }
 
 	[Command]
@@ -109,7 +118,15 @@ public class PlayerController : NetworkBehaviour
 		Destroy(bullet, 2.0f);
 	}
 
-	public override void OnStartLocalPlayer()
+
+    void ThrowBall(){
+        GameObject ball = Instantiate(ballPrefab, ballSpawn.position, ballSpawn.rotation);
+        ball.GetComponent<Rigidbody>().velocity = ball.transform.forward * 20;
+        NetworkServer.Spawn(ball);
+        TextController.instance.ballText.text = "Get a Ball!";
+    }
+
+    public override void OnStartLocalPlayer()
     {
         GetComponent<MeshRenderer>().material.color = Color.blue;
     }
@@ -133,5 +150,19 @@ public class PlayerController : NetworkBehaviour
         right.Normalize();
 
         return forward * verticalAxis + right * horizontalAxis;
+    }
+
+    void OnTriggerEnter(Collider other){
+        if (other.gameObject.CompareTag("Ball")){
+            other.gameObject.SetActive(false);
+            HasBall = true;
+            SetBallText();
+        }
+    }
+
+    void SetBallText(){   
+        if(HasBall){
+            TextController.instance.ballText.text = "You Have a Ball!";
+        }
     }
 }
