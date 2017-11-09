@@ -119,7 +119,6 @@ public class PlayerController : NetworkBehaviour
 		Destroy(bullet, 2.0f);
 	}
 
-
     void ThrowBall(){
         GameObject ball = Instantiate(ballPrefab, ballSpawn.position, ballSpawn.rotation);
         ball.GetComponent<Rigidbody>().velocity = ball.transform.forward * ballPower;
@@ -153,9 +152,8 @@ public class PlayerController : NetworkBehaviour
         return forward * verticalAxis + right * horizontalAxis;
     }
 
-    void OnTriggerEnter(Collider other){
-        if (other.gameObject.CompareTag("Ball")){
-            other.gameObject.SetActive(false);
+    void OnControllerColliderHit(ControllerColliderHit col) {
+        if (col.gameObject.CompareTag("Ball")){
             HasBall = true;
             SetBallText();
         }
