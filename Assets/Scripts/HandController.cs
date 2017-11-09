@@ -9,10 +9,12 @@ public class HandController : MonoBehaviour {
 
 	public void GrabItem(GameObject itemToGrab){
 		HeldObject = itemToGrab;
-
+		
 		itemToGrab.transform.parent = Hand.transform;
-		itemToGrab.transform.localPosition = new Vector3(0, 0, 0);
-		// itemToGrab.transform.localRotation = Quaternion.Euler(0,0,0);
+		Vector3 pos = itemToGrab.transform.position;
+		pos.y += 1.0f;
+
+		itemToGrab.transform.position = pos;
 
 		itemToGrab.GetComponent<Rigidbody>().isKinematic = true;
 	}
