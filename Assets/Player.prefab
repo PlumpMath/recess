@@ -101,7 +101,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126485554188426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.377}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4354710434456578}
@@ -278,8 +278,8 @@ MonoBehaviour:
   movementSettings:
     WalkSpeed: 10
     RunSpeed: 20
-    FallSpeed: 7
-    JumpSpeed: 8
+    FallSpeed: 2.75
+    JumpSpeed: 3.25
     JumpTime: 0.2
 --- !u!114 &114966155399277714
 MonoBehaviour:
@@ -312,8 +312,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0.5}
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0, z: 1}
 --- !u!143 &143066299308598500
 CharacterController:
   m_ObjectHideFlags: 1

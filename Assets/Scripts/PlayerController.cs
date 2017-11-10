@@ -17,6 +17,7 @@ public class PlayerController : NetworkBehaviour
     private CharacterController character;
     private HandController hand;
     public PlayerMovement movementSettings;
+    private float jumpStartTime;
 
     private List<GameObject> HoldableItems;
 
@@ -73,7 +74,9 @@ public class PlayerController : NetworkBehaviour
 
         float dY = -movementSettings.FallSpeed;
         if(IsJumping){
-            dY = movementSettings.JumpSpeed;
+            float jumpTimeElapsed = Time.time - jumpStartTime;
+            float jumpCoeff = (movementSettings.JumpTime - jumpTimeElapsed) / movementSettings.JumpTime;
+            dY = jumpCoeff * movementSettings.JumpSpeed;
         }
         moveDirection.y = dY * Time.deltaTime;
         character.Move(moveDirection * movementSettings.WalkSpeed);
@@ -83,6 +86,7 @@ public class PlayerController : NetworkBehaviour
     void Jump()
     {
         IsJumping = true;
+        jumpStartTime = Time.time;
         Invoke("FinishJump", movementSettings.JumpTime);
     }
 
