@@ -19,14 +19,11 @@ public class PlayerController : NetworkBehaviour
     public PlayerMovement movementSettings;
     private float jumpStartTime;
 
-    private List<GameObject> HoldableItems;
-
     private bool IsJumping = false;
 
 	void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
-        HoldableItems = new List<GameObject>();
     }
 
     public override void OnStartLocalPlayer()
@@ -59,17 +56,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         if(Input.GetMouseButtonDown(0)){
-            if(hand.HeldObject != null){
-                hand.ReleaseItem();
-            } else {
-                int count = HoldableItems.Count;
-                if (count > 0)
-                {
-                    GameObject itemToGrab = HoldableItems[count - 1];
-                    hand.GrabItem(itemToGrab);
-                    HoldableItems.Remove(itemToGrab);
-                }
-            }
+            hand.Use();
         }
 
         float dY = -movementSettings.FallSpeed;
@@ -113,17 +100,5 @@ public class PlayerController : NetworkBehaviour
         right.Normalize();
 
         return forward * verticalAxis + right * horizontalAxis;
-    }
-
-    void OnTriggerEnter(Collider other){
-        if(other.GetComponent<HoldableItem>()){
-            HoldableItems.Add(other.gameObject);
-        }
-    }
-
-    void OnTriggerExit(Collider other){
-        if(HoldableItems.Contains(other.gameObject)){
-            HoldableItems.Remove(other.gameObject);
-        }
     }
 }
