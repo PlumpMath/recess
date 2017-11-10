@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 199279055595864930}
   - component: {fileID: 198565450657119482}
   - component: {fileID: 95940575574286876}
+  - component: {fileID: 65039661655968864}
+  - component: {fileID: 114126146225977194}
   m_Layer: 0
   m_Name: Gold Star
   m_TagString: Untagged
@@ -38,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1921813183862530}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 9.77}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,6 +87,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1921813183862530}
   m_Mesh: {fileID: 4300000, guid: 9e491aa52bad743e28318e5061b94098, type: 3}
+--- !u!65 &65039661655968864
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921813183862530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.012081651, y: 0.0019349328, z: 0.01148791}
+  m_Center: {x: -6.9849193e-10, y: 0, z: 0.00060640567}
 --- !u!95 &95940575574286876
 Animator:
   serializedVersion: 3
@@ -97,11 +111,22 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 9c598c8c2a80f480380cd31804ffa3b1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114126146225977194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921813183862530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c814f900ebdd14220aa6d388075c50bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198565450657119482
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -162,7 +187,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 999637354
+  randomSeed: 1113534165
   InitialModule:
     serializedVersion: 3
     enabled: 1

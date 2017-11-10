@@ -14,16 +14,20 @@ public struct PlayerMovement{
 
 public class PlayerController : NetworkBehaviour
 {
+    public PlayerMovement movementSettings;
+
     private CharacterController character;
     private HandController hand;
-    public PlayerMovement movementSettings;
     private float jumpStartTime;
+    private List<GameObject> Collectibles;
 
     private bool IsJumping = false;
 
 	void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
+
+        Collectibles = new List<GameObject>();
     }
 
     public override void OnStartLocalPlayer()
@@ -100,5 +104,23 @@ public class PlayerController : NetworkBehaviour
         right.Normalize();
 
         return forward * verticalAxis + right * horizontalAxis;
+    }
+
+    void GetCollectible(GameObject c){
+        Debug.LogFormat("Picked up a {0}!", c.name);
+        Collectibles.Add(c);
+        c.GetComponent<MeshRenderer>().enabled = false;
+        c.GetComponent<Collider>().enabled = false;
+        c.GetComponent<ParticleSystem>().Stop();
+
+
+        Debug.Log(Collectibles.Count);
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit){
+        GameObject other = hit.collider.gameObject;
+        if (other.GetComponent<Collectible>()){
+            GetCollectible(other);
+        }
     }
 }
