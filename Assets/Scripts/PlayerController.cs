@@ -117,8 +117,8 @@ public class PlayerController : NetworkBehaviour
         Debug.Log(Collectibles.Count);
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit){
-        GameObject other = hit.collider.gameObject;
+    void OnTriggerEnter(Collider hit){
+        GameObject other = hit.gameObject;
         if (other.GetComponent<Collectible>()){
             GetCollectible(other);
         }
