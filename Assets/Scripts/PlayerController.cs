@@ -127,14 +127,16 @@ public class PlayerController : NetworkBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit) {
         Rigidbody body = hit.collider.attachedRigidbody;
+        
         if (body == null || body.isKinematic)
             return;
         
-        if (hit.moveDirection.y < -0.3F)
-            return;
+        if (hit.moveDirection.y < 0 ) {
+            Debug.LogFormat("pushed down{0}", hit.collider.gameObject.name);
+        }
         
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        body.velocity = pushDir * movementSettings.PushPower;
+        body.AddForceAtPosition(pushDir * movementSettings.PushPower, transform.position, ForceMode.Force);
 
     }
 }
