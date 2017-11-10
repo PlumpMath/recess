@@ -281,6 +281,7 @@ MonoBehaviour:
     FallSpeed: 2.75
     JumpSpeed: 3.25
     JumpTime: 0.2
+    PushPower: 3
 --- !u!114 &114966155399277714
 MonoBehaviour:
   m_ObjectHideFlags: 1
