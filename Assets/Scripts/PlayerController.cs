@@ -20,6 +20,7 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController character;
     private HandController hand;
+    private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
 
@@ -63,7 +64,7 @@ public class PlayerController : NetworkBehaviour
             CancelInvoke("FinishJump");
             FinishJump();
         }
-        
+
         // If character isnt holding anything
         if (Input.GetMouseButtonDown(0) && !IsHolding) {
             hand.Grab();
@@ -92,7 +93,14 @@ public class PlayerController : NetworkBehaviour
             dY = jumpCoeff * movementSettings.JumpSpeed;
         }
         moveDirection.y = dY * Time.deltaTime;
-        character.Move(moveDirection * movementSettings.WalkSpeed);
+
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            MovementSpeed = movementSettings.RunSpeed;
+        } else {
+            MovementSpeed = movementSettings.WalkSpeed;
+        }
+
+        character.Move(moveDirection * MovementSpeed);
 
     }
 
