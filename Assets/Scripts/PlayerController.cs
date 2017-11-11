@@ -11,6 +11,7 @@ public struct PlayerMovement{
     public float JumpSpeed;
     public float JumpTime;
     public float PushPower;
+    public float Weight;
 }
 
 public class PlayerController : NetworkBehaviour
@@ -125,18 +126,24 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    // Push gameObjects
     void OnControllerColliderHit(ControllerColliderHit hit) {
         Rigidbody body = hit.collider.attachedRigidbody;
         
         if (body == null || body.isKinematic)
             return;
         
-        if (hit.moveDirection.y < 0 ) {
-            Debug.LogFormat("pushed down{0}", hit.collider.gameObject.name);
-        }
-        
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        body.AddForceAtPosition(pushDir * movementSettings.PushPower, transform.position, ForceMode.Force);
+        Vector3 forceDir = Vector3.down * movementSettings.Weight;
+
+        if(!character.isGrounded) {
+            forceDir = Vector3.up * 10.0f ;
+        }
+
+        body.velocity = pushDir * movementSettings.PushPower;
+
+        // Apply force while standing on or jumping into objects
+        body.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
 
     }
 }
