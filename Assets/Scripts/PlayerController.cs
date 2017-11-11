@@ -136,7 +136,7 @@ public class PlayerController : NetworkBehaviour
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         Vector3 forceDir = Vector3.down * movementSettings.Weight;
 
-        if(!character.isGrounded) {
+        if(IsJumping) {
             forceDir = Vector3.up * 10.0f ;
         }
 
