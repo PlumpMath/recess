@@ -42,7 +42,10 @@ public class HandController : MonoBehaviour {
         if (ChargeLevel <= ChargeMax) {
             ChargeLevel += Time.deltaTime * ThrowSpeed;
         }
-        Debug.Log(ChargeLevel);
+
+        int ChargePercent = (int)ChargeLevel;
+
+        TextController.instance.ThrowPower.text = ChargePercent.ToString();
     }
 
     public void Release() {

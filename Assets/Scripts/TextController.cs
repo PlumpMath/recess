@@ -11,6 +11,6 @@ public class TextController : MonoBehaviour {
         instance = this;
     }
 
-    public Text ballText;
+    public Text ThrowPower;
 
 }
