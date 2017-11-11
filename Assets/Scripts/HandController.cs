@@ -58,6 +58,7 @@ public class HandController : MonoBehaviour {
         rb.AddForce(TossDirection, ForceMode.Impulse);
         HeldObject = null;
         ChargeLevel = 0;
+        TextController.instance.ThrowPower.text = null;
     }
 
     void OnTriggerEnter(Collider other)
