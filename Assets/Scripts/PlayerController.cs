@@ -25,7 +25,10 @@ public class PlayerController : NetworkBehaviour
 
     private bool IsJumping = false;
 
-	void Awake(){
+    private bool IsHolding;
+    private bool IsCharging;
+
+    void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
 
@@ -60,9 +63,26 @@ public class PlayerController : NetworkBehaviour
             CancelInvoke("FinishJump");
             FinishJump();
         }
+        
+        // If character isnt holding anything
+        if (Input.GetMouseButtonDown(0) && !IsHolding) {
+            hand.Grab();
+            if(hand.HeldObject != null) {
+                IsHolding = true;
+            }
+        }
+        
+        // If characer has object, allow charge
+        if (Input.GetMouseButton(1) && IsHolding) {
+            hand.Charge();
+            IsCharging = true;
+        } 
 
-        if(Input.GetMouseButtonDown(0)){
-            hand.Use();
+        // If charging, throw on release
+        if (Input.GetMouseButtonUp(1) && IsCharging) {
+            hand.Release();
+            IsCharging = false;
+            IsHolding = false;
         }
 
         float dY = -movementSettings.FallSpeed;
