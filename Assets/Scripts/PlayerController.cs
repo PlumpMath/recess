@@ -10,6 +10,8 @@ public struct PlayerMovement{
     public float FallSpeed;
     public float JumpSpeed;
     public float JumpTime;
+    public float PushPower;
+    public float Weight;
 }
 
 public class PlayerController : NetworkBehaviour
@@ -18,12 +20,16 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController character;
     private HandController hand;
+    private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
 
     private bool IsJumping = false;
 
-	void Awake(){
+    private bool IsHolding;
+    private bool IsCharging;
+
+    void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
 
@@ -59,8 +65,25 @@ public class PlayerController : NetworkBehaviour
             FinishJump();
         }
 
-        if(Input.GetMouseButtonDown(0)){
-            hand.Use();
+        // If character isnt holding anything
+        if (Input.GetMouseButtonDown(0) && !IsHolding) {
+            hand.Grab();
+            if(hand.HeldObject != null) {
+                IsHolding = true;
+            }
+        }
+        
+        // If characer has object, allow charge
+        if (Input.GetMouseButton(1) && IsHolding) {
+            hand.Charge();
+            IsCharging = true;
+        } 
+
+        // If charging, throw on release
+        if (Input.GetMouseButtonUp(1) && IsCharging) {
+            hand.Release();
+            IsCharging = false;
+            IsHolding = false;
         }
 
         float dY = -movementSettings.FallSpeed;
@@ -70,7 +93,14 @@ public class PlayerController : NetworkBehaviour
             dY = jumpCoeff * movementSettings.JumpSpeed;
         }
         moveDirection.y = dY * Time.deltaTime;
-        character.Move(moveDirection * movementSettings.WalkSpeed);
+
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            MovementSpeed = movementSettings.RunSpeed;
+        } else {
+            MovementSpeed = movementSettings.WalkSpeed;
+        }
+
+        character.Move(moveDirection * MovementSpeed);
 
     }
 
@@ -122,5 +152,26 @@ public class PlayerController : NetworkBehaviour
         if (other.GetComponent<Collectible>()){
             GetCollectible(other);
         }
+    }
+
+    // Push gameObjects
+    void OnControllerColliderHit(ControllerColliderHit hit) {
+        Rigidbody body = hit.collider.attachedRigidbody;
+        
+        if (body == null || body.isKinematic)
+            return;
+        
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+        Vector3 forceDir = Vector3.down * movementSettings.Weight;
+
+        if(IsJumping) {
+            forceDir = Vector3.up * 10.0f ;
+        }
+
+        body.velocity = pushDir * movementSettings.PushPower;
+
+        // Apply force while standing on or jumping into objects
+        body.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
+
     }
 }

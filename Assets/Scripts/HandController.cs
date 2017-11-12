@@ -7,22 +7,20 @@ public class HandController : MonoBehaviour {
 	public GameObject HeldObject;
     private List<GameObject> HoldableItems;
 	public float ThrowSpeed;
+    private float ChargeLevel;
+    private float ChargeMax = 100.0f;
 
 	void Awake(){
         HoldableItems = new List<GameObject>();
 	}
 
-	public void Use(){
-        if (HeldObject != null){
-			ReleaseItem();
-        } else {
-            int count = HoldableItems.Count;
-            if (count > 0)
-            {
-                GameObject itemToGrab = HoldableItems[count - 1];
-                GrabItem(itemToGrab);
-                HoldableItems.Remove(itemToGrab);
-            }
+	public void Grab(){
+        int count = HoldableItems.Count;
+        if (count > 0)
+        {
+            GameObject itemToGrab = HoldableItems[count - 1];
+            GrabItem(itemToGrab);
+            HoldableItems.Remove(itemToGrab);
         }
 	}
 
@@ -36,18 +34,32 @@ public class HandController : MonoBehaviour {
 		itemToGrab.transform.position = pos;
 
 		itemToGrab.GetComponent<Rigidbody>().isKinematic = true;
-	}
 
-	public void ReleaseItem(){
-		HeldObject.transform.parent = transform.parent;
-		Vector3 TossDirection =
-			(Hand.transform.forward * ThrowSpeed) +
-			(Hand.transform.up * 3.0f);
-		Rigidbody rb = HeldObject.GetComponent<Rigidbody>();
+    }
+
+    public void Charge() {
+
+        if (ChargeLevel <= ChargeMax) {
+            ChargeLevel += Time.deltaTime * ThrowSpeed;
+        }
+
+        int ChargePercent = (int)ChargeLevel;
+
+        TextController.instance.ThrowPower.text = ChargePercent.ToString();
+    }
+
+    public void Release() {
+        HeldObject.transform.parent = transform.parent;
+        Vector3 TossDirection =
+            (Hand.transform.forward * ChargeLevel +
+            (Hand.transform.up * 3.0f));
+        Rigidbody rb = HeldObject.GetComponent<Rigidbody>();
         rb.isKinematic = false;
-		rb.AddForce(TossDirection, ForceMode.Impulse);
-		HeldObject = null;
-	}
+        rb.AddForce(TossDirection, ForceMode.Impulse);
+        HeldObject = null;
+        ChargeLevel = 0;
+        TextController.instance.ThrowPower.text = null;
+    }
 
     void OnTriggerEnter(Collider other)
     {
