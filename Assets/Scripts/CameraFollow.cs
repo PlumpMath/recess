@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
+
     public float cameraMinX = 3.0f;
     public float cameraMaxX = 10.0f;
     public float cameraMinY = -0.5f;
     public float cameraMaxY = 6.0f;
     private Camera mainCamera;
 
-    private float cameraDistance = 0.5f;
-    private float cameraAngle = 0.0f;
+    private float _groundLevel  = 1.0f;
+    public float GroundLevel{
+        get { return _groundLevel; }
+        set {
+            _groundLevel = Mathf.MoveTowards(_groundLevel, value, CameraSpeed * Time.deltaTime);
+        }
+    }
+    public float CameraDistance = 0.5f;
+    public float CameraAngle = 0.0f;
+    public float CameraSpeed = 18.0f;
 
     Vector3 CameraPosition()
     {
-        float t = Mathf.Repeat(cameraAngle + Mathf.PI, Mathf.PI * 2.0f);
-        float discY = Mathf.Lerp(cameraMinY, cameraMaxY, cameraDistance);
-        float discR = Mathf.Lerp(cameraMinX, cameraMaxX, cameraDistance);
+        float t = Mathf.Repeat(CameraAngle + Mathf.PI, Mathf.PI * 2.0f);
+        float discY = Mathf.Lerp(cameraMinY, cameraMaxY, CameraDistance);
+        float discR = Mathf.Lerp(cameraMinX, cameraMaxX, CameraDistance);
 
         Vector3 me = new Vector3(
             transform.position.x,
-            0f,
+            GroundLevel,
             transform.position.z
         );
 
@@ -36,11 +45,11 @@ public class CameraFollow : MonoBehaviour {
 	}
 
 	void Update () {
-        cameraAngle += Input.GetAxis("Mouse X") * 0.25f;
-        cameraAngle = Mathf.Repeat(cameraAngle, Mathf.PI * 2.0f);
-        cameraDistance = Mathf.Clamp01(cameraDistance + (Input.mouseScrollDelta.y * 0.05f));
+        CameraAngle += Input.GetAxis("Mouse X") * 0.25f;
+        CameraAngle = Mathf.Repeat(CameraAngle, Mathf.PI * 2.0f);
+        CameraDistance = Mathf.Clamp01(CameraDistance + (Input.mouseScrollDelta.y * 0.05f));
 
         mainCamera.transform.position = CameraPosition();
-        mainCamera.transform.LookAt(new Vector3(transform.position.x, 1.0f, transform.position.z));
+        mainCamera.transform.LookAt(new Vector3(transform.position.x, GroundLevel, transform.position.z));
 	}
 }

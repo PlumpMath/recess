@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 [System.Serializable]
-public struct PlayerMovement{
+public struct PlayerMovementSettings{
     public float WalkSpeed;
     public float RunSpeed;
     public float FallSpeed;
@@ -16,10 +16,11 @@ public struct PlayerMovement{
 
 public class PlayerController : NetworkBehaviour
 {
-    public PlayerMovement movementSettings;
+    public PlayerMovementSettings movementSettings;
 
     private CharacterController character;
     private HandController hand;
+    private CameraFollow CameraController;
     private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
@@ -35,14 +36,13 @@ public class PlayerController : NetworkBehaviour
     }
 
     private bool IsJumping = false;
-
     private bool IsHolding;
     private bool IsCharging;
 
     void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
-
+        CameraController = GetComponent<CameraFollow>();
         Collectibles = new List<GameObject>();
     }
 
@@ -111,7 +111,6 @@ public class PlayerController : NetworkBehaviour
         }
 
         character.Move(moveDirection * MovementSpeed);
-
     }
 
     void Jump()
@@ -167,6 +166,7 @@ public class PlayerController : NetworkBehaviour
 
         if(hit.moveDirection.y < -0.3f){
             StandingOn = hit.collider.gameObject;
+            CameraController.GroundLevel = transform.position.y;
         }
 
         if (body == null || body.isKinematic)
