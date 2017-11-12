@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4933325425399054}
   m_Layer: 0
-  m_Name: Gold Star
+  m_Name: Gold Star Container
   m_TagString: Untagged
   m_Icon: {fileID: -982381405332843317, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
