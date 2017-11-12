@@ -24,6 +24,16 @@ public class PlayerController : NetworkBehaviour
     private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
+    private GameObject _standingOn;
+
+    public GameObject StandingOn {
+        get { return _standingOn; }
+        set {
+            if (_standingOn != value) {
+                _standingOn = value;
+            }
+        }
+    }
 
     private bool IsJumping = false;
 
@@ -110,6 +120,7 @@ public class PlayerController : NetworkBehaviour
     {
         IsJumping = true;
         jumpStartTime = Time.time;
+        StandingOn = null;
         Invoke("FinishJump", movementSettings.JumpTime);
     }
 
@@ -141,19 +152,15 @@ public class PlayerController : NetworkBehaviour
     void GetCollectible(GameObject c){
         Debug.LogFormat("Picked up a {0}!", c.name);
         Collectibles.Add(c);
-        c.GetComponent<MeshRenderer>().enabled = false;
-        c.GetComponent<Collider>().enabled = false;
-        c.GetComponent<ParticleSystem>().Stop();
-
-
-        Debug.Log(Collectibles.Count);
     }
 
     void OnTriggerEnter(Collider hit){
         GameObject other = hit.gameObject;
+        Collectible c = other.GetComponent<Collectible>();
 
-        if (other.GetComponent<Collectible>()){
+        if (c) {
             GetCollectible(other);
+            c.PickMeUp();
         }
 
         if (other.CompareTag("Road")) {
@@ -166,7 +173,11 @@ public class PlayerController : NetworkBehaviour
     // Push gameObjects
     void OnControllerColliderHit(ControllerColliderHit hit) {
         Rigidbody other = hit.collider.attachedRigidbody;
-        
+
+        if (hit.moveDirection.y < -0.3f) {
+            StandingOn = hit.collider.gameObject;
+        }
+
         if (other == null || other.isKinematic)
             return;
         
