@@ -139,28 +139,28 @@ public class PlayerController : NetworkBehaviour
     void GetCollectible(GameObject c){
         Debug.LogFormat("Picked up a {0}!", c.name);
         Collectibles.Add(c);
-        c.GetComponent<MeshRenderer>().enabled = false;
-        c.GetComponent<Collider>().enabled = false;
-        c.GetComponent<ParticleSystem>().Stop();
-
-
-        Debug.Log(Collectibles.Count);
     }
 
     void OnTriggerEnter(Collider hit){
         GameObject other = hit.gameObject;
-        if (other.GetComponent<Collectible>()){
+        Collectible c = other.GetComponent<Collectible>();
+        if (c){
             GetCollectible(other);
+            c.PickMeUp();
         }
     }
 
     // Push gameObjects
     void OnControllerColliderHit(ControllerColliderHit hit) {
         Rigidbody body = hit.collider.attachedRigidbody;
-        
+
+        if(hit.moveDirection.y < -0.3f){
+            StandingOn = hit.collider.gameObject;
+        }
+
         if (body == null || body.isKinematic)
             return;
-        
+
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         Vector3 forceDir = Vector3.down * movementSettings.Weight;
 

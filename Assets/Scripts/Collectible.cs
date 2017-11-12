@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public void PickMeUp(){
+		GetComponent<MeshRenderer>().enabled = false;
+		GetComponent<Collider>().enabled = false;
+        GetComponent<ParticleSystem>().Stop();
 	}
 }
