@@ -23,6 +23,16 @@ public class PlayerController : NetworkBehaviour
     private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
+    private GameObject _standingOn;
+
+    public GameObject StandingOn {
+        get { return _standingOn; }
+        set {
+            if(_standingOn != value){
+                _standingOn = value;
+            }
+        }
+    }
 
     private bool IsJumping = false;
 
@@ -72,12 +82,12 @@ public class PlayerController : NetworkBehaviour
                 IsHolding = true;
             }
         }
-        
+
         // If characer has object, allow charge
         if (Input.GetMouseButton(1) && IsHolding) {
             hand.Charge();
             IsCharging = true;
-        } 
+        }
 
         // If charging, throw on release
         if (Input.GetMouseButtonUp(1) && IsCharging) {
@@ -108,6 +118,7 @@ public class PlayerController : NetworkBehaviour
     {
         IsJumping = true;
         jumpStartTime = Time.time;
+        StandingOn = null;
         Invoke("FinishJump", movementSettings.JumpTime);
     }
 
