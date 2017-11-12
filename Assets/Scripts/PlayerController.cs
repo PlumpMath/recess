@@ -20,7 +20,11 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController character;
     private HandController hand;
+<<<<<<< HEAD
     private CameraFollow CameraController;
+=======
+    private RoadController road;
+>>>>>>> dan
     private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
@@ -29,7 +33,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject StandingOn {
         get { return _standingOn; }
         set {
-            if(_standingOn != value){
+            if (_standingOn != value) {
                 _standingOn = value;
             }
         }
@@ -42,7 +46,12 @@ public class PlayerController : NetworkBehaviour
     void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
+<<<<<<< HEAD
         CameraController = GetComponent<CameraFollow>();
+=======
+        road = GetComponent<RoadController>();
+
+>>>>>>> dan
         Collectibles = new List<GameObject>();
     }
 
@@ -82,12 +91,12 @@ public class PlayerController : NetworkBehaviour
                 IsHolding = true;
             }
         }
-
+        
         // If characer has object, allow charge
         if (Input.GetMouseButton(1) && IsHolding) {
             hand.Charge();
             IsCharging = true;
-        }
+        } 
 
         // If charging, throw on release
         if (Input.GetMouseButtonUp(1) && IsCharging) {
@@ -154,24 +163,31 @@ public class PlayerController : NetworkBehaviour
     void OnTriggerEnter(Collider hit){
         GameObject other = hit.gameObject;
         Collectible c = other.GetComponent<Collectible>();
-        if (c){
+
+        if (c) {
             GetCollectible(other);
             c.PickMeUp();
         }
+
+        if (other.CompareTag("Road")) {
+            road.SpawnTruck();
+        }
+
     }
+
 
     // Push gameObjects
     void OnControllerColliderHit(ControllerColliderHit hit) {
-        Rigidbody body = hit.collider.attachedRigidbody;
+        Rigidbody other = hit.collider.attachedRigidbody;
 
-        if(hit.moveDirection.y < -0.3f){
+        if (hit.moveDirection.y < -0.3f) {
             StandingOn = hit.collider.gameObject;
             CameraController.GroundLevel = transform.position.y;
         }
 
-        if (body == null || body.isKinematic)
+        if (other == null || other.isKinematic)
             return;
-
+        
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         Vector3 forceDir = Vector3.down * movementSettings.Weight;
 
@@ -179,10 +195,12 @@ public class PlayerController : NetworkBehaviour
             forceDir = Vector3.up * 10.0f ;
         }
 
-        body.velocity = pushDir * movementSettings.PushPower;
+        other.velocity = pushDir * movementSettings.PushPower;
 
         // Apply force while standing on or jumping into objects
-        body.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
+        other.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
 
     }
+
+
 }
