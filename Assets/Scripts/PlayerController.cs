@@ -20,6 +20,7 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController character;
     private HandController hand;
+    private RoadController road;
     private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
@@ -32,6 +33,7 @@ public class PlayerController : NetworkBehaviour
     void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
+        road = GetComponent<RoadController>();
 
         Collectibles = new List<GameObject>();
     }
@@ -149,16 +151,23 @@ public class PlayerController : NetworkBehaviour
 
     void OnTriggerEnter(Collider hit){
         GameObject other = hit.gameObject;
+
         if (other.GetComponent<Collectible>()){
             GetCollectible(other);
         }
+
+        if (other.CompareTag("Road")) {
+            road.SpawnTruck();
+        }
+
     }
+
 
     // Push gameObjects
     void OnControllerColliderHit(ControllerColliderHit hit) {
-        Rigidbody body = hit.collider.attachedRigidbody;
+        Rigidbody other = hit.collider.attachedRigidbody;
         
-        if (body == null || body.isKinematic)
+        if (other == null || other.isKinematic)
             return;
         
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
@@ -168,10 +177,12 @@ public class PlayerController : NetworkBehaviour
             forceDir = Vector3.up * 10.0f ;
         }
 
-        body.velocity = pushDir * movementSettings.PushPower;
+        other.velocity = pushDir * movementSettings.PushPower;
 
         // Apply force while standing on or jumping into objects
-        body.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
+        other.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
 
     }
+
+
 }

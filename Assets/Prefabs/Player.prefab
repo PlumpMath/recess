@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114831185555644294}
   - component: {fileID: 114720703021759736}
   - component: {fileID: 114456320046860916}
+  - component: {fileID: 114667865227783378}
   - component: {fileID: 135415648979361254}
   m_Layer: 0
   m_Name: Player
@@ -249,6 +250,19 @@ MonoBehaviour:
     i15: 81
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114667865227783378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126485554188426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3033d8107096b4847b599f9fbe17f3c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  truckPrefab: {fileID: 1778046396333992, guid: c73160445f1b5384389429f93c9c15a7,
+    type: 2}
 --- !u!114 &114720703021759736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSettings:
     WalkSpeed: 10
-    RunSpeed: 20
+    RunSpeed: 100
     FallSpeed: 2.75
     JumpSpeed: 3.25
     JumpTime: 0.2
