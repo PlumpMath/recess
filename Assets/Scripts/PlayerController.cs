@@ -20,11 +20,8 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController character;
     private HandController hand;
-<<<<<<< HEAD
     private CameraFollow CameraController;
-=======
     private RoadController road;
->>>>>>> dan
     private float MovementSpeed;
     private float jumpStartTime;
     private List<GameObject> Collectibles;
@@ -46,12 +43,9 @@ public class PlayerController : NetworkBehaviour
     void Awake(){
         character = GetComponent<CharacterController>();
         hand = GetComponent<HandController>();
-<<<<<<< HEAD
         CameraController = GetComponent<CameraFollow>();
-=======
         road = GetComponent<RoadController>();
 
->>>>>>> dan
         Collectibles = new List<GameObject>();
     }
 
@@ -91,12 +85,12 @@ public class PlayerController : NetworkBehaviour
                 IsHolding = true;
             }
         }
-        
+
         // If characer has object, allow charge
         if (Input.GetMouseButton(1) && IsHolding) {
             hand.Charge();
             IsCharging = true;
-        } 
+        }
 
         // If charging, throw on release
         if (Input.GetMouseButtonUp(1) && IsCharging) {
@@ -187,7 +181,7 @@ public class PlayerController : NetworkBehaviour
 
         if (other == null || other.isKinematic)
             return;
-        
+
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         Vector3 forceDir = Vector3.down * movementSettings.Weight;
 
