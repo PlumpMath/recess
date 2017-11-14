@@ -386,6 +386,7 @@ MonoBehaviour:
     JumpTime: 0.2
     PushPower: 3
     Weight: 2
+  NamePlate: {fileID: 114145411646252054}
   PlayerName: 
   PlayerColor: {r: 0, g: 0, b: 0, a: 0}
   onToggleShared:

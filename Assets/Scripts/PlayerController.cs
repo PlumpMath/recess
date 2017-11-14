@@ -22,6 +22,7 @@ namespace Vital{
     public class PlayerController : NetworkBehaviour
     {
         public PlayerMovementSettings movementSettings;
+        public Text NamePlate;
 
         private CharacterController character;
         private HandController hand;
@@ -51,7 +52,9 @@ namespace Vital{
         void OnNameChanged(string value){
             PlayerName = value;
             gameObject.name = value;
-            // GetComponentInChildren<Text>().text = value;
+            if(NamePlate != null){
+                NamePlate.text = value;
+            }
         }
 
         void OnColorChanged(Color value){
