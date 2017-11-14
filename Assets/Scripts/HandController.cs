@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 
 public class HandController : MonoBehaviour {
@@ -38,7 +39,6 @@ public class HandController : MonoBehaviour {
     }
 
     public void Charge() {
-
         if(ChargeLevel <= ChargeMax) {
             ChargeLevel += Time.deltaTime * ThrowSpeed;
         }
@@ -46,7 +46,6 @@ public class HandController : MonoBehaviour {
         // int ChargePercent = (int)ChargeLevel;
         // TextController.instance.ThrowPower.text = ChargePercent.ToString();
         TextController.instance.PowerBar.fillAmount = ChargeLevel / 100;
-        
     }
 
 
