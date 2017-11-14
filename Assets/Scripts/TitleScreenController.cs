@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class TitleScreenController : MonoBehaviour {
 
-	public void OnClickNewGame(){
-		Debug.Log("New Game");
-		SceneManager.LoadScene("Main");
+	public void OnClickStartGame(){
+		SceneManager.LoadScene("Game Lobby");
 	}
 
 	public void OnClickQuit(){
-		Debug.Log("Quit");
+		Debug.Log("Quit!");
 		Application.Quit();
 	}
 }

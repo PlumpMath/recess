@@ -1,137 +1,227 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
-public class PlayerController : NetworkBehaviour
-{
-	private Camera mainCamera;
-    private CharacterController character;
-	public GameObject bulletPrefab;
-	public Transform bulletSpawn;
+[System.Serializable]
+public struct PlayerMovementSettings{
+    public float WalkSpeed;
+    public float RunSpeed;
+    public float FallSpeed;
+    public float JumpSpeed;
+    public float JumpTime;
+    public float PushPower;
+    public float Weight;
+}
 
+[System.Serializable]
+public class ToggleEvent : UnityEvent<bool> { }
 
-    public float jumpSpeed = 10.0f;
-    public float gravity = 7.0f;
-    public float speed = 3.0f;
-    public float jumpTime = 1.0f;
-
-    private bool IsJumping = false;
-    private float groundLevel;
-
-    public float cameraMinX = 3.0f;
-    public float cameraMaxX = 10.0f;
-    public float cameraMinY = -0.5f;
-    public float cameraMaxY = 6.0f;
-
-    private float cameraDistance = 0.5f;
-    private float cameraAngle = 0.0f;
-
-    Vector3 CameraPosition(){
-        float t = Mathf.Repeat(cameraAngle + Mathf.PI, Mathf.PI * 2.0f);
-        float discY = Mathf.Lerp(cameraMinY, cameraMaxY, cameraDistance);
-        float discR = Mathf.Lerp(cameraMinX, cameraMaxX, cameraDistance);
-
-        Vector3 me = new Vector3(
-            transform.position.x,
-            0f,
-            transform.position.z
-        );
-
-        return me + new Vector3(
-            Mathf.Sin(t) * discR,
-            discY,
-            Mathf.Cos(t) * discR
-        );
-    }
-
-    void Jump(){
-        IsJumping = true;
-        Invoke("FinishJump", jumpTime);
-    }
-
-    void FinishJump(){
-        IsJumping = false;
-    }
-
-	void Awake(){
-		mainCamera = Camera.main;
-        character = GetComponent<CharacterController>();
-	}
-
-    void Update()
+namespace Vital{
+    public class PlayerController : NetworkBehaviour
     {
-		if(!isLocalPlayer){
-			return;
-		}
+        public PlayerMovementSettings movementSettings;
 
-        Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
-        Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
+        private CharacterController character;
+        private HandController hand;
+        private CameraFollow CameraController;
+        private RoadController road;
+        private float MovementSpeed;
+        private float jumpStartTime;
+        private List<GameObject> Collectibles;
+        private GameObject _standingOn;
 
-        cameraAngle += Input.GetAxis("Mouse X") * 0.25f;
-        cameraAngle = Mathf.Repeat(cameraAngle, Mathf.PI * 2.0f);
-        cameraDistance = Mathf.Clamp01(cameraDistance + (Input.mouseScrollDelta.y * 0.05f));
-
-        if(lookAt != Vector3.zero){
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                Quaternion.LookRotation(lookAt),
-                10.0f
-            );
+        public GameObject StandingOn {
+            get { return _standingOn; }
+            set {
+                if (_standingOn != value) {
+                    _standingOn = value;
+                }
+            }
         }
 
-        if (character.isGrounded && Input.GetKeyDown(KeyCode.Space)) {
-            Jump();
-        } else if(IsJumping && Input.GetKeyUp(KeyCode.Space)){
-            CancelInvoke("FinishJump");
-            FinishJump();
+        [SyncVar (hook = "OnNameChanged")] public string PlayerName;
+        [SyncVar (hook = "OnColorChanged")] public Color PlayerColor;
+
+        [SerializeField] ToggleEvent onToggleShared;
+        [SerializeField] ToggleEvent onToggleLocal;
+        [SerializeField] ToggleEvent onToggleRemote;
+
+        void OnNameChanged(string value){
+            PlayerName = value;
+            gameObject.name = value;
+            // GetComponentInChildren<Text>().text = value;
         }
 
-        float dY = -gravity;
-        if(IsJumping){
-            dY = jumpSpeed;
+        void OnColorChanged(Color value){
+            PlayerColor = value;
+            GetComponent<MeshRenderer>().material.color = PlayerColor;
         }
-        moveDirection.y = dY * Time.deltaTime;
-        character.Move(moveDirection * speed);
 
-        mainCamera.transform.position = CameraPosition();
-        mainCamera.transform.LookAt(new Vector3(transform.position.x, 1.0f, transform.position.z));
+        private bool IsJumping = false;
+        private bool IsHolding;
+        private bool IsCharging;
 
-		if(Input.GetKeyDown(KeyCode.LeftShift)){
-			CmdFire();
-		}
-    }
+        void Awake(){
+            character = GetComponent<CharacterController>();
+            hand = GetComponent<HandController>();
+            CameraController = GetComponent<CameraFollow>();
+            road = GetComponent<RoadController>();
 
-	[Command]
-	void CmdFire(){
-		GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-		bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
-		NetworkServer.Spawn(bullet);
+            Collectibles = new List<GameObject>();
+        }
 
-		Destroy(bullet, 2.0f);
-	}
+        void Start(){
+            GetComponent<MeshRenderer>().material.color = PlayerColor;
 
-	public override void OnStartLocalPlayer()
-    {
-        GetComponent<MeshRenderer>().material.color = Color.blue;
-    }
+            if(isLocalPlayer){
+                onToggleLocal.Invoke(true);
+            } else {
+                onToggleRemote.Invoke(true);
+            }
+        }
 
-    Vector3 GetInputRelativeToCamera()
-    {
-        float horizontalAxis = Input.GetAxis("Horizontal");
-        float verticalAxis = Input.GetAxis("Vertical");
-
-        if (horizontalAxis == 0 && verticalAxis == 0)
+        void Update()
         {
-            return Vector3.zero;
+            if(!isLocalPlayer){
+                return;
+            }
+
+            Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
+            Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
+
+            if(lookAt != Vector3.zero){
+                transform.rotation = Quaternion.RotateTowards(
+                    transform.rotation,
+                    Quaternion.LookRotation(lookAt),
+                    10.0f
+                );
+            }
+
+            if (character.isGrounded && Input.GetKeyDown(KeyCode.Space)) {
+                Jump();
+            } else if(IsJumping && Input.GetKeyUp(KeyCode.Space)){
+                CancelInvoke("FinishJump");
+                FinishJump();
+            }
+
+            // If character isnt holding anything
+            if (Input.GetMouseButtonDown(0) && !IsHolding) {
+                hand.Grab();
+                if(hand.HeldObject != null) {
+                    IsHolding = true;
+                }
+            }
+
+            // If characer has object, allow charge
+            if (Input.GetMouseButton(1) && IsHolding) {
+                hand.Charge();
+                IsCharging = true;
+            }
+
+            // If charging, throw on release
+            if (Input.GetMouseButtonUp(1) && IsCharging) {
+                hand.Release();
+                IsCharging = false;
+                IsHolding = false;
+            }
+
+            float dY = -movementSettings.FallSpeed;
+            if(IsJumping){
+                float jumpTimeElapsed = Time.time - jumpStartTime;
+                float jumpCoeff = (movementSettings.JumpTime - jumpTimeElapsed) / movementSettings.JumpTime;
+                dY = jumpCoeff * movementSettings.JumpSpeed;
+            }
+            moveDirection.y = dY * Time.deltaTime;
+
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                MovementSpeed = movementSettings.RunSpeed;
+            } else {
+                MovementSpeed = movementSettings.WalkSpeed;
+            }
+
+            character.Move(moveDirection * MovementSpeed);
         }
 
-        Vector3 forward = mainCamera.transform.forward;
-        Vector3 right = mainCamera.transform.right;
+        void Jump()
+        {
+            IsJumping = true;
+            jumpStartTime = Time.time;
+            StandingOn = null;
+            Invoke("FinishJump", movementSettings.JumpTime);
+        }
 
-        forward.y = 0f;
-        right.y = 0f;
-        forward.Normalize();
-        right.Normalize();
+        void FinishJump()
+        {
+            IsJumping = false;
+        }
 
-        return forward * verticalAxis + right * horizontalAxis;
+        Vector3 GetInputRelativeToCamera(){
+            float horizontalAxis = Input.GetAxis("Horizontal");
+            float verticalAxis = Input.GetAxis("Vertical");
+
+            if (horizontalAxis == 0 && verticalAxis == 0)
+            {
+                return Vector3.zero;
+            }
+
+            Vector3 forward = Camera.main.transform.forward;
+            Vector3 right = Camera.main.transform.right;
+
+            forward.y = 0f;
+            right.y = 0f;
+            forward.Normalize();
+            right.Normalize();
+
+            return forward * verticalAxis + right * horizontalAxis;
+        }
+
+        void GetCollectible(GameObject c){
+            Debug.LogFormat("Picked up a {0}!", c.name);
+            Collectibles.Add(c);
+        }
+
+        void OnTriggerEnter(Collider hit){
+            GameObject other = hit.gameObject;
+            Collectible c = other.GetComponent<Collectible>();
+
+            if (c) {
+                GetCollectible(other);
+                c.PickMeUp();
+            }
+
+            if (other.CompareTag("Road")) {
+                road.SpawnTruck();
+            }
+
+        }
+
+
+        // Push gameObjects
+        void OnControllerColliderHit(ControllerColliderHit hit) {
+            Rigidbody other = hit.collider.attachedRigidbody;
+
+            if (hit.moveDirection.y < -0.3f) {
+                StandingOn = hit.collider.gameObject;
+                CameraController.GroundLevel = transform.position.y;
+            }
+
+            if (other == null || other.isKinematic)
+                return;
+
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            Vector3 forceDir = Vector3.down * movementSettings.Weight;
+
+            if(IsJumping) {
+                forceDir = Vector3.up * 10.0f ;
+            }
+
+            other.velocity = pushDir * movementSettings.PushPower;
+
+            // Apply force while standing on or jumping into objects
+            other.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
+
+        }
     }
 }
