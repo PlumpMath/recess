@@ -37,6 +37,20 @@ namespace Vital{
             }
         }
 
+        [SyncVar (hook = "OnNameChanged")] public string PlayerName;
+        [SyncVar (hook = "OnColorChanged")] public Color PlayerColor;
+
+        void OnNameChanged(string value){
+            PlayerName = value;
+            gameObject.name = value;
+            //update nameplate
+        }
+
+        void OnColorChanged(Color value){
+            PlayerColor = value;
+            GetComponent<MeshRenderer>().material.color = PlayerColor;
+        }
+
         private bool IsJumping = false;
         private bool IsHolding;
         private bool IsCharging;
@@ -50,10 +64,6 @@ namespace Vital{
             Collectibles = new List<GameObject>();
         }
 
-        public override void OnStartLocalPlayer()
-        {
-            GetComponent<MeshRenderer>().material.color = Color.blue;
-        }
 
         void Update()
         {
