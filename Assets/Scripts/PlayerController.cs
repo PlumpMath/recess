@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections.Generic;
@@ -13,6 +14,9 @@ public struct PlayerMovementSettings{
     public float PushPower;
     public float Weight;
 }
+
+[System.Serializable]
+public class ToggleEvent : UnityEvent<bool> { }
 
 namespace Vital{
     public class PlayerController : NetworkBehaviour
@@ -40,10 +44,14 @@ namespace Vital{
         [SyncVar (hook = "OnNameChanged")] public string PlayerName;
         [SyncVar (hook = "OnColorChanged")] public Color PlayerColor;
 
+        [SerializeField] ToggleEvent onToggleShared;
+        [SerializeField] ToggleEvent onToggleLocal;
+        [SerializeField] ToggleEvent onToggleRemote;
+
         void OnNameChanged(string value){
             PlayerName = value;
             gameObject.name = value;
-            //update nameplate
+            GetComponentInChildren<Text>().text = value;
         }
 
         void OnColorChanged(Color value){
@@ -64,6 +72,15 @@ namespace Vital{
             Collectibles = new List<GameObject>();
         }
 
+        void Start(){
+            GetComponent<MeshRenderer>().material.color = PlayerColor;
+
+            if(isLocalPlayer){
+                onToggleLocal.Invoke(true);
+            } else {
+                onToggleRemote.Invoke(true);
+            }
+        }
 
         void Update()
         {
