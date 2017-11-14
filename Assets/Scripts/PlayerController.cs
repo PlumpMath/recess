@@ -51,7 +51,7 @@ namespace Vital{
         void OnNameChanged(string value){
             PlayerName = value;
             gameObject.name = value;
-            GetComponentInChildren<Text>().text = value;
+            // GetComponentInChildren<Text>().text = value;
         }
 
         void OnColorChanged(Color value){
