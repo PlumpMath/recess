@@ -39,14 +39,16 @@ public class HandController : MonoBehaviour {
 
     public void Charge() {
 
-        if (ChargeLevel <= ChargeMax) {
+        if(ChargeLevel <= ChargeMax) {
             ChargeLevel += Time.deltaTime * ThrowSpeed;
         }
 
-        int ChargePercent = (int)ChargeLevel;
-
-        TextController.instance.ThrowPower.text = ChargePercent.ToString();
+        // int ChargePercent = (int)ChargeLevel;
+        // TextController.instance.ThrowPower.text = ChargePercent.ToString();
+        TextController.instance.PowerBar.fillAmount = ChargeLevel / 100;
+        
     }
+
 
     public void Release() {
         HeldObject.transform.parent = transform.parent;
@@ -58,7 +60,8 @@ public class HandController : MonoBehaviour {
         rb.AddForce(TossDirection, ForceMode.Impulse);
         HeldObject = null;
         ChargeLevel = 0;
-        TextController.instance.ThrowPower.text = null;
+        // TextController.instance.ThrowPower.text = null;
+        TextController.instance.PowerBar.fillAmount = 0;
     }
 
     void OnTriggerEnter(Collider other)

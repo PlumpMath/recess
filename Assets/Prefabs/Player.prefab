@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 1230624438907688}
   HeldObject: {fileID: 0}
-  ThrowSpeed: 25
+  ThrowSpeed: 40
 --- !u!114 &114572628643796498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSettings:
     WalkSpeed: 10
-    RunSpeed: 100
+    RunSpeed: 30
     FallSpeed: 2.75
     JumpSpeed: 3.25
     JumpTime: 0.2
