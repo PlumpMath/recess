@@ -12,5 +12,6 @@ public class TextController : MonoBehaviour {
     }
 
     public Text ThrowPower;
+    public Image PowerBar;
 
 }
