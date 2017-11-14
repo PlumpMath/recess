@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class CameraFollow : MonoBehaviour {
+public class CameraFollow : NetworkBehaviour {
 
     public float cameraMinX = 3.0f;
     public float cameraMaxX = 10.0f;
@@ -45,6 +46,10 @@ public class CameraFollow : MonoBehaviour {
 	}
 
 	void Update () {
+        if(!isLocalPlayer){
+            return;
+        }
+
         CameraAngle += Input.GetAxis("Mouse X") * 0.25f;
         CameraAngle = Mathf.Repeat(CameraAngle, Mathf.PI * 2.0f);
         CameraDistance = Mathf.Clamp01(CameraDistance + (Input.mouseScrollDelta.y * 0.05f));

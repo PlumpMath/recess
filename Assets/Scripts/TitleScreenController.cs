@@ -7,18 +7,8 @@ using UnityEngine.Networking;
 public class TitleScreenController : MonoBehaviour {
 	public NetworkManager networkManager;
 
-	public void OnClickHostGame(){
-		Debug.Log("Host a Game!");
-		networkManager.StartHost();
-		SceneManager.LoadScene("Main");
-	}
-
-	public void OnClickJoinGame(){
-		Debug.Log("Join a Game!");
-	}
-
-	public void OnClickEditCharacter(){
-		Debug.Log("Edit Character!");
+	public void OnClickStartGame(){
+		SceneManager.LoadScene("Game Lobby");
 	}
 
 	public void OnClickQuit(){
