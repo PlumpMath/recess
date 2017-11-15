@@ -27,7 +27,6 @@ namespace Vital{
         private CharacterController character;
         private HandController hand;
         private CameraFollow CameraController;
-        private RoadController road;
         private float MovementSpeed;
         private float jumpStartTime;
         private List<GameObject> Collectibles;
@@ -70,7 +69,6 @@ namespace Vital{
             character = GetComponent<CharacterController>();
             hand = GetComponent<HandController>();
             CameraController = GetComponent<CameraFollow>();
-            road = GetComponent<RoadController>();
 
             Collectibles = new List<GameObject>();
         }
@@ -193,11 +191,6 @@ namespace Vital{
                 GetCollectible(other);
                 c.PickMeUp();
             }
-
-            if (other.CompareTag("Road")) {
-                road.SpawnTruck();
-            }
-
         }
 
 
