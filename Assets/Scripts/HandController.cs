@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HandController : MonoBehaviour {
 	public GameObject Hand;
@@ -11,8 +12,14 @@ public class HandController : MonoBehaviour {
     private float ChargeLevel;
     private float ChargeMax = 100.0f;
 
+    private Image PowerFill;
+
 	void Awake(){
         HoldableItems = new List<GameObject>();
+        GameObject pbf = GameObject.Find("Power Bar Fill");
+        if(pbf != null){
+            PowerFill = pbf.GetComponent<Image>();
+        }
 	}
 
 	public void Grab(){
@@ -43,9 +50,7 @@ public class HandController : MonoBehaviour {
             ChargeLevel += Time.deltaTime * ThrowSpeed;
         }
 
-        // int ChargePercent = (int)ChargeLevel;
-        // TextController.instance.ThrowPower.text = ChargePercent.ToString();
-        TextController.instance.PowerBar.fillAmount = ChargeLevel / 100;
+        PowerFill.fillAmount = ChargeLevel / 100;
     }
 
 
