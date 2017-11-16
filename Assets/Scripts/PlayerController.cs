@@ -30,6 +30,7 @@ namespace Vital{
         private float MovementSpeed;
         private float jumpStartTime;
         private List<GameObject> Collectibles;
+        private List<GameObject> PowerUps;
         private GameObject _standingOn;
 
         public GameObject StandingOn {
@@ -71,6 +72,7 @@ namespace Vital{
             CameraController = GetComponent<CameraFollow>();
 
             Collectibles = new List<GameObject>();
+            PowerUps = new List<GameObject>();
         }
 
         void Start(){
@@ -183,13 +185,23 @@ namespace Vital{
             Collectibles.Add(c);
         }
 
+        void GetPowerUp(GameObject p) {
+            PowerUps.Add(p);
+        }
+
         void OnTriggerEnter(Collider hit){
             GameObject other = hit.gameObject;
             Collectible c = other.GetComponent<Collectible>();
+            PowerUp p = other.GetComponent<PowerUp>();
 
             if (c) {
                 GetCollectible(other);
                 c.PickMeUp();
+            }
+
+            if (p) {
+                GetPowerUp(other);
+                p.ActivatePower(other);
             }
         }
 
