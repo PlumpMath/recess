@@ -19,8 +19,7 @@ public struct PlayerMovementSettings{
 public class ToggleEvent : UnityEvent<bool> { }
 
 namespace Vital{
-    public class PlayerController : NetworkBehaviour
-    {
+    public class PlayerController : NetworkBehaviour {
         public PlayerMovementSettings movementSettings;
         public Text NamePlate;
 
@@ -131,6 +130,7 @@ namespace Vital{
             }
 
             float dY = -movementSettings.FallSpeed;
+            float jumpHeight = 1;
             if(IsJumping){
                 float jumpTimeElapsed = Time.time - jumpStartTime;
                 float jumpCoeff = (movementSettings.JumpTime - jumpTimeElapsed) / movementSettings.JumpTime;
@@ -140,11 +140,14 @@ namespace Vital{
 
             if (Input.GetKey(KeyCode.LeftShift)) {
                 MovementSpeed = movementSettings.RunSpeed;
+                jumpHeight = 1.2f;
             } else {
                 MovementSpeed = movementSettings.WalkSpeed;
             }
+            
+            moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * jumpHeight), (moveDirection.z * MovementSpeed));
 
-            character.Move(moveDirection * MovementSpeed);
+            character.Move(moveDirection);
         }
 
         void Jump()
@@ -201,7 +204,13 @@ namespace Vital{
 
             if (p) {
                 GetPowerUp(other);
-                p.ActivatePower(other);
+                p.ActivatePower();
+
+                if (p.name == "Pumps") {
+                    Debug.LogFormat("Give {0} to {1}", p.name, PlayerName);
+                    movementSettings.WalkSpeed = movementSettings.WalkSpeed * 5;
+                    movementSettings.RunSpeed = movementSettings.RunSpeed * 5;
+                }
             }
         }
 

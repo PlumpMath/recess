@@ -37,7 +37,8 @@ GameObject:
   - component: {fileID: 33464782604552778}
   - component: {fileID: 65477238685422464}
   - component: {fileID: 23491512656867602}
-  - component: {fileID: 114688465399802424}
+  - component: {fileID: 114179441583837398}
+  - component: {fileID: 114239178704537430}
   m_Layer: 0
   m_Name: Pumps
   m_TagString: Untagged
@@ -125,7 +126,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114688465399802424
+--- !u!114 &114179441583837398
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -136,11 +137,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65b3d8ca12851e4eac17de1b4c151ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSettings:
-    WalkSpeed: 0
-    RunSpeed: 0
-    FallSpeed: 0
-    JumpSpeed: 0
-    JumpTime: 0
-    PushPower: 0
-    Weight: 0
+--- !u!114 &114239178704537430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1510440767625140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 186
+    i1: 230
+    i2: 194
+    i3: 159
+    i4: 206
+    i5: 253
+    i6: 168
+    i7: 52
+    i8: 248
+    i9: 53
+    i10: 250
+    i11: 3
+    i12: 53
+    i13: 247
+    i14: 74
+    i15: 233
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

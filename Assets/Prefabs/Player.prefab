@@ -367,9 +367,9 @@ MonoBehaviour:
   movementSettings:
     WalkSpeed: 10
     RunSpeed: 30
-    FallSpeed: 2.75
-    JumpSpeed: 3.25
-    JumpTime: 0.2
+    FallSpeed: 20
+    JumpSpeed: 25
+    JumpTime: 0.25
     PushPower: 3
     Weight: 2
   NamePlate: {fileID: 0}
@@ -415,7 +415,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126485554188426}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.75
