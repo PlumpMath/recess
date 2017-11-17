@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -28,6 +29,7 @@ namespace Vital{
         private CameraFollow CameraController;
         private float MovementSpeed;
         private float jumpStartTime;
+        private float timePassed = 0;
         private List<GameObject> Collectibles;
         private List<GameObject> PowerUps;
         private GameObject _standingOn;
@@ -207,13 +209,19 @@ namespace Vital{
                 p.ActivatePower();
 
                 if (p.name == "Pumps") {
-                    Debug.LogFormat("Give {0} to {1}", p.name, PlayerName);
-                    movementSettings.WalkSpeed = movementSettings.WalkSpeed * 5;
-                    movementSettings.RunSpeed = movementSettings.RunSpeed * 5;
+                    StartCoroutine(PowerUpPumps());
                 }
             }
         }
 
+        IEnumerator PowerUpPumps() {
+            while (timePassed < 3f) {
+                timePassed += Time.deltaTime;
+                movementSettings.WalkSpeed = movementSettings.WalkSpeed * 5;
+                movementSettings.RunSpeed = movementSettings.RunSpeed * 5;
+                yield return null;
+            }
+        }
 
         // Push gameObjects
         void OnControllerColliderHit(ControllerColliderHit hit) {
