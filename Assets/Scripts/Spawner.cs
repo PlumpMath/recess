@@ -9,8 +9,13 @@ public class Spawner : NetworkBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag == "Player"){
-			GameObject o = Instantiate(Prefab, SpawnPoint.position, SpawnPoint.rotation);
-			NetworkServer.Spawn(o);
+			CmdSpawn();
 		}
+	}
+
+	[Command]
+	void CmdSpawn(){
+        GameObject o = Instantiate(Prefab, SpawnPoint.position, SpawnPoint.rotation);
+        NetworkServer.Spawn(o);
 	}
 }
