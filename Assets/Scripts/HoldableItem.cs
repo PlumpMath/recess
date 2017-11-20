@@ -7,6 +7,8 @@ public class HoldableItem : NetworkBehaviour
 {
     private Rigidbody rb;
     private Vector3 OwnerOffset;
+    private NetworkIdentity networkIdentity;
+    private NetworkConnection authority;
 
     [SyncVar]
     GameObject Owner;
@@ -14,11 +16,18 @@ public class HoldableItem : NetworkBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        networkIdentity = GetComponent<NetworkIdentity>();
     }
 
     public HoldableItem PickUp(GameObject owner)
     {
-        CmdPickUp(owner);
+        NetworkIdentity oid = owner.GetComponent<NetworkIdentity>();
+        if(oid != null){
+            authority = oid.connectionToClient;
+            networkIdentity.AssignClientAuthority(authority);
+            CmdPickUp(owner);
+        }
+
 		return this;
     }
 
@@ -38,6 +47,9 @@ public class HoldableItem : NetworkBehaviour
 
     public HoldableItem Release()
     {
+        if(authority != null){
+            networkIdentity.RemoveClientAuthority(authority);
+        }
         CmdRelease();
         return this;
     }
