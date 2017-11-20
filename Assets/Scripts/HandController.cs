@@ -9,10 +9,11 @@ public class HandController : MonoBehaviour
 {
     public static float interactSphereRadius = 1.0f;
     private const int INTERACTIVE = 1 << 8;
-    private NetworkTransformChild networkTransformChild;
     public HoldableItem HeldObject;
     public GameObject Hand;
     public float ThrowSpeed;
+
+    private NetworkIdentity networkIdentity;
     private float ChargeLevel;
     private float ChargeMax = 100.0f;
 
@@ -25,13 +26,13 @@ public class HandController : MonoBehaviour
 
     void Awake()
     {
+        networkIdentity = GetComponent<NetworkIdentity>();
+
         GameObject pbf = GameObject.Find("Power Bar");
         if (pbf != null)
         {
             PowerFill = pbf.GetComponent<Image>();
         }
-
-        networkTransformChild = GetComponent<NetworkTransformChild>();
     }
 
     public void Grab()
@@ -47,6 +48,21 @@ public class HandController : MonoBehaviour
             });
 
             GameObject obj = orderedFound.ElementAt(0).gameObject;
+            NetworkIdentity itemNID = obj.GetComponent<NetworkIdentity>();
+            NetworkConnection itemOwner = itemNID.clientAuthorityOwner;
+
+            if(itemOwner == networkIdentity.connectionToClient){
+                Debug.Log("Already the authority!");
+            } else {
+                if(itemOwner != null){
+                    itemNID.RemoveClientAuthority(itemOwner);
+                    itemNID.localPlayerAuthority = false;
+                } else {
+                    itemNID.localPlayerAuthority = true;
+                }
+                itemNID.AssignClientAuthority(networkIdentity.connectionToClient);
+            }
+
             HoldableItem item = obj.GetComponent<HoldableItem>();
             if (item)
             {

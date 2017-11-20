@@ -6,9 +6,7 @@ using UnityEngine.Networking;
 public class HoldableItem : NetworkBehaviour
 {
     private Rigidbody rb;
-    private Vector3 OwnerOffset;
     private NetworkIdentity networkIdentity;
-    private NetworkConnection authority;
 
     [SyncVar]
     GameObject Owner;
@@ -21,15 +19,7 @@ public class HoldableItem : NetworkBehaviour
 
     public HoldableItem PickUp(GameObject owner)
     {
-        NetworkIdentity oid = owner.GetComponent<NetworkIdentity>();
-        if(oid != null){
-            networkIdentity.localPlayerAuthority = true;
-
-            authority = oid.connectionToClient;
-            networkIdentity.AssignClientAuthority(authority);
-            CmdPickUp(owner);
-        }
-
+        CmdPickUp(owner);
 		return this;
     }
 
@@ -38,8 +28,6 @@ public class HoldableItem : NetworkBehaviour
     {
         Debug.LogFormat("{0} was picked up by {1}", gameObject.name, owner.name);
         Owner = owner;
-        OwnerOffset = transform.position - Owner.transform.position;
-        //rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints.FreezeAll;
         NetworkIdentity networkIdentity = owner.GetComponent<NetworkIdentity>();
         if(networkIdentity != null){
@@ -50,6 +38,8 @@ public class HoldableItem : NetworkBehaviour
     public HoldableItem Release()
     {
         CmdRelease();
+        NetworkConnection authority = networkIdentity.clientAuthorityOwner;
+
         if (authority != null)
         {
             networkIdentity.RemoveClientAuthority(authority);
@@ -63,7 +53,6 @@ public class HoldableItem : NetworkBehaviour
     {
         Debug.LogFormat("{0} was dropped by {1}", gameObject.name, Owner.name);
         Owner = null;
-        // rb.isKinematic = false;
         rb.constraints = RigidbodyConstraints.None;
         ServerSetParent(null);
     }
