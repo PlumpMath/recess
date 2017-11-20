@@ -23,6 +23,8 @@ public class HoldableItem : NetworkBehaviour
     {
         NetworkIdentity oid = owner.GetComponent<NetworkIdentity>();
         if(oid != null){
+            networkIdentity.localPlayerAuthority = true;
+
             authority = oid.connectionToClient;
             networkIdentity.AssignClientAuthority(authority);
             CmdPickUp(owner);
@@ -47,10 +49,12 @@ public class HoldableItem : NetworkBehaviour
 
     public HoldableItem Release()
     {
-        if(authority != null){
-            networkIdentity.RemoveClientAuthority(authority);
-        }
         CmdRelease();
+        if (authority != null)
+        {
+            networkIdentity.RemoveClientAuthority(authority);
+            networkIdentity.localPlayerAuthority = false;
+        }
         return this;
     }
 
