@@ -108,7 +108,7 @@ namespace Vital{
 
             // If character isnt holding anything
             if (Input.GetMouseButtonDown(0) && !hand.HeldObject) {
-                hand.Grab();
+                hand.CmdGrab();
             }
 
             // If characer has object, allow charge

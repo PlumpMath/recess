@@ -35,7 +35,8 @@ public class HandController : MonoBehaviour
         }
     }
 
-    public void Grab()
+    [Command]
+    public void CmdGrab()
     {
         Vector3 C = transform.position + transform.forward;
 
