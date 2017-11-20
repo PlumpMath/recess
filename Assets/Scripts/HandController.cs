@@ -1,43 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HandController : MonoBehaviour {
-	public GameObject Hand;
-	public HoldableItem HeldObject;
-    private List<HoldableItem> HoldableItems;
-	public float ThrowSpeed;
+public class HandController : MonoBehaviour
+{
+    public static float interactSphereRadius = 1.0f;
+    private const int INTERACTIVE = 1 << 8;
+    private NetworkTransformChild networkTransformChild;
+    public HoldableItem HeldObject;
+    public GameObject Hand;
+    public float ThrowSpeed;
     private float ChargeLevel;
     private float ChargeMax = 100.0f;
 
     private Image PowerFill;
 
-	void Awake(){
-        HoldableItems = new List<HoldableItem>();
-        GameObject pbf = GameObject.Find("Power Bar Fill");
-        if(pbf != null){
-            PowerFill = pbf.GetComponent<Image>();
-        }
-	}
-
-	public void Grab(){
-        int count = HoldableItems.Count;
-        if (count > 0)
-        {
-            HoldableItem itemToGrab = HoldableItems[count - 1];
-            GrabItem(itemToGrab);
-            HoldableItems.Remove(itemToGrab);
-        }
-	}
-
-	public void GrabItem(HoldableItem itemToGrab){
-		HeldObject = itemToGrab.PickUp(this.gameObject, Hand);
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position + transform.forward, interactSphereRadius);
     }
 
-    public void Charge() {
-        if(ChargeLevel <= ChargeMax) {
+    void Awake()
+    {
+        GameObject pbf = GameObject.Find("Power Bar");
+        if (pbf != null)
+        {
+            PowerFill = pbf.GetComponent<Image>();
+        }
+
+        networkTransformChild = GetComponent<NetworkTransformChild>();
+    }
+
+    public void Grab()
+    {
+        Vector3 C = transform.position + transform.forward;
+
+        if (Physics.CheckSphere(C, interactSphereRadius, INTERACTIVE))
+        {
+            Collider[] found = Physics.OverlapSphere(C, interactSphereRadius, INTERACTIVE);
+            var orderedFound = found.OrderBy(c =>
+            {
+                return (c.gameObject.transform.position - C).sqrMagnitude;
+            });
+
+            GameObject obj = orderedFound.ElementAt(0).gameObject;
+            HoldableItem item = obj.GetComponent<HoldableItem>();
+            if (item)
+            {
+                HeldObject = item.PickUp(this.gameObject);
+            }
+        }
+    }
+
+    public void Charge()
+    {
+        if (ChargeLevel <= ChargeMax)
+        {
             ChargeLevel += Time.deltaTime * ThrowSpeed;
         }
 
@@ -45,7 +66,8 @@ public class HandController : MonoBehaviour {
     }
 
 
-    public void Release() {
+    public void Release()
+    {
         HoldableItem releasedItem = HeldObject.Release();
         Vector3 TossDirection =
             (Hand.transform.forward * ChargeLevel +
@@ -56,27 +78,5 @@ public class HandController : MonoBehaviour {
         PowerFill.fillAmount = 0;
 
         HeldObject = null;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        HoldableItem h = other.GetComponent<HoldableItem>();
-        if (h)
-        {
-            HoldableItems.Add(h);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        HoldableItem h = other.GetComponent<HoldableItem>();
-        if(h == null){
-            return;
-        }
-
-        if (HoldableItems.Contains(h))
-        {
-            HoldableItems.Remove(h);
-        }
     }
 }
