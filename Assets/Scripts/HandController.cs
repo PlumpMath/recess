@@ -5,17 +5,15 @@ using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HandController : MonoBehaviour
+public class HandController : NetworkBehaviour
 {
     public static float interactSphereRadius = 1.0f;
     private const int INTERACTIVE = 1 << 8;
     public HoldableItem HeldObject;
-    public GameObject Hand;
     public float ThrowSpeed;
-
-    private NetworkIdentity networkIdentity;
     private float ChargeLevel;
     private float ChargeMax = 100.0f;
+    private NetworkIdentity networkIdentity;
 
     private Image PowerFill;
 
@@ -35,39 +33,43 @@ public class HandController : MonoBehaviour
         }
     }
 
-    [Command]
-    public void CmdGrab()
-    {
+    private GameObject ClosestInteractableObject(){
+        GameObject ret = null;
         Vector3 C = transform.position + transform.forward;
-
-        if (Physics.CheckSphere(C, interactSphereRadius, INTERACTIVE))
-        {
+        if(Physics.CheckSphere(C, interactSphereRadius, INTERACTIVE)){
             Collider[] found = Physics.OverlapSphere(C, interactSphereRadius, INTERACTIVE);
             var orderedFound = found.OrderBy(c =>
             {
                 return (c.gameObject.transform.position - C).sqrMagnitude;
             });
 
-            GameObject obj = orderedFound.ElementAt(0).gameObject;
-            NetworkIdentity itemNID = obj.GetComponent<NetworkIdentity>();
-            NetworkConnection itemOwner = itemNID.clientAuthorityOwner;
+            ret = orderedFound.ElementAt(0).gameObject;
+        }
 
+        return ret;
+    }
 
-            if (itemOwner != null)
-            {
-                itemNID.RemoveClientAuthority(itemOwner);
-                itemNID.localPlayerAuthority = false;
-            }
-            else
-            {
-                itemNID.localPlayerAuthority = true;
-            }
-            itemNID.AssignClientAuthority(networkIdentity.connectionToClient);
+    [Command]
+    public void CmdGrab()
+    {
+        GameObject obj = ClosestInteractableObject();
+        if(obj){
 
-            HoldableItem item = obj.GetComponent<HoldableItem>();
-            if (item)
-            {
-                HeldObject = item.PickUp(this.gameObject);
+            Debug.LogFormat("Grab the {0}!", obj.name);
+
+            NetworkIdentity objectIdentity = obj.GetComponent<NetworkIdentity>();
+            NetworkConnection ownerConnection = objectIdentity.clientAuthorityOwner;
+            if(ownerConnection != null){
+                if(ownerConnection == networkIdentity.connectionToClient){
+                    Debug.Log("Already the owner");
+                }
+            } else {
+                Debug.Log("NO OWNER, GIMMIE DAT");
+
+                objectIdentity.localPlayerAuthority = true;
+                objectIdentity.AssignClientAuthority(networkIdentity.connectionToClient);
+
+                HeldObject = obj.GetComponent<HoldableItem>().PickUp(gameObject);
             }
         }
     }
@@ -87,8 +89,8 @@ public class HandController : MonoBehaviour
     {
         HoldableItem releasedItem = HeldObject.Release();
         Vector3 TossDirection =
-            (Hand.transform.forward * ChargeLevel +
-            (Hand.transform.up * 3.0f));
+            (transform.forward * ChargeLevel) +
+            (transform.up * 3.0f);
         Rigidbody rb = releasedItem.gameObject.GetComponent<Rigidbody>();
         rb.AddForce(TossDirection, ForceMode.Impulse);
         ChargeLevel = 0;

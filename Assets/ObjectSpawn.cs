@@ -8,8 +8,9 @@ public class ObjectSpawn : NetworkBehaviour {
 
 	void Start(){
 		if(isServer){
+			Debug.LogFormat("Spawn a {0}!", prefab.name);
             GameObject o = Instantiate(prefab, transform.position, transform.rotation);
-            NetworkServer.SpawnWithClientAuthority(o, connectionToServer);
+            NetworkServer.Spawn(o);
 		}
 
 		Destroy(gameObject);
