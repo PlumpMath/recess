@@ -13,6 +13,6 @@ public class LookAtCamera : MonoBehaviour {
 		if(mainCamera == null){ return; }
 
 		// transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
-		transform.rotation = Quaternion.Inverse(mainCamera.rotation);
+		transform.rotation = Quaternion.identity;
 	}
 }
