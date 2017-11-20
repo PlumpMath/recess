@@ -9,7 +9,7 @@ public class ObjectSpawn : NetworkBehaviour {
 	void Start(){
 		if(isServer){
             GameObject o = Instantiate(prefab, transform.position, transform.rotation);
-            NetworkServer.Spawn(o);
+            NetworkServer.SpawnWithClientAuthority(o, connectionToServer);
 		}
 
 		Destroy(gameObject);
