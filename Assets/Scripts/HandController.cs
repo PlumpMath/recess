@@ -51,17 +51,17 @@ public class HandController : MonoBehaviour
             NetworkIdentity itemNID = obj.GetComponent<NetworkIdentity>();
             NetworkConnection itemOwner = itemNID.clientAuthorityOwner;
 
-            if(itemOwner == networkIdentity.connectionToClient){
-                Debug.Log("Already the authority!");
-            } else {
-                if(itemOwner != null){
-                    itemNID.RemoveClientAuthority(itemOwner);
-                    itemNID.localPlayerAuthority = false;
-                } else {
-                    itemNID.localPlayerAuthority = true;
-                }
-                itemNID.AssignClientAuthority(networkIdentity.connectionToClient);
+
+            if (itemOwner != null)
+            {
+                itemNID.RemoveClientAuthority(itemOwner);
+                itemNID.localPlayerAuthority = false;
             }
+            else
+            {
+                itemNID.localPlayerAuthority = true;
+            }
+            itemNID.AssignClientAuthority(networkIdentity.connectionToClient);
 
             HoldableItem item = obj.GetComponent<HoldableItem>();
             if (item)
