@@ -29,7 +29,7 @@ namespace Vital{
         private CameraFollow CameraController;
         private float MovementSpeed;
         private float jumpStartTime;
-        private float timePassed = 0;
+        private float PowerUpTime;
         private List<GameObject> Collectibles;
         private List<GameObject> PowerUps;
         private GameObject _standingOn;
@@ -206,22 +206,27 @@ namespace Vital{
 
             if (p) {
                 GetPowerUp(other);
-                p.ActivatePower();
 
                 if (p.name == "Pumps") {
+                    PowerUpTime = 5f;
+                    movementSettings.WalkSpeed = movementSettings.WalkSpeed * 3;
+                    movementSettings.RunSpeed = movementSettings.RunSpeed * 3;
+                    p.ActivatePower(PowerUpTime);
                     StartCoroutine(PowerUpPumps());
                 }
             }
         }
 
         IEnumerator PowerUpPumps() {
-            while (timePassed < 3f) {
-                timePassed += Time.deltaTime;
-                movementSettings.WalkSpeed = movementSettings.WalkSpeed * 5;
-                movementSettings.RunSpeed = movementSettings.RunSpeed * 5;
-                yield return null;
-            }
+            yield return new WaitForSeconds(PowerUpTime);
+            PowerDownPumps();
         }
+
+        void PowerDownPumps() {
+            movementSettings.WalkSpeed = movementSettings.WalkSpeed / 3;
+            movementSettings.RunSpeed = movementSettings.RunSpeed / 3;
+        }
+
 
         // Push gameObjects
         void OnControllerColliderHit(ControllerColliderHit hit) {

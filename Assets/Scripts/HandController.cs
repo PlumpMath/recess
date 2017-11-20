@@ -65,7 +65,7 @@ public class HandController : MonoBehaviour {
         HeldObject = null;
         ChargeLevel = 0;
         // TextController.instance.ThrowPower.text = null;
-        TextController.instance.PowerBar.fillAmount = 0;
+        PowerFill.fillAmount = 0;
     }
 
     void OnTriggerEnter(Collider other)
