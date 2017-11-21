@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114628157277274966}
   - component: {fileID: 114797279467884338}
   m_Layer: 8
-  m_Name: Sphere
+  m_Name: Dodgeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
