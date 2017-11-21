@@ -42,7 +42,7 @@ public class HoldableItem : NetworkBehaviour
     public void RpcPickUp(GameObject owner){
         Debug.LogFormat("{0} was picked up by {1}", gameObject.name, owner.name);
         Owner = owner;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        // rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public HoldableItem Release(Vector3 TossDirection)
@@ -62,7 +62,7 @@ public class HoldableItem : NetworkBehaviour
     public void RpcClientRelease(Vector3 TossDirection){
         Debug.LogFormat("{0} was dropped by {1}", gameObject.name, Owner.name);
         Owner = null;
-        rb.constraints = RigidbodyConstraints.None;
+        // rb.constraints = RigidbodyConstraints.None;
         rb.AddForce(TossDirection, ForceMode.Impulse);
     }
 
