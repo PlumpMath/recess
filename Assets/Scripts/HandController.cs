@@ -88,19 +88,22 @@ public class HandController : NetworkBehaviour
         PowerFill.fillAmount = ChargeLevel / 100;
     }
 
-    [Command]
-    public void CmdRelease()
-    {
+    public void Release(){
         Vector3 TossDirection =
             (transform.forward * ChargeLevel) +
             (transform.up * 3.0f);
 
-        HoldableItem releasedItem = HeldObject.Release(TossDirection);
+        CmdRelease(TossDirection);
 
         ChargeLevel = 0;
         PowerFill.fillAmount = 0;
-
-        CmdRemoveAuthority(HeldObject.GetComponent<NetworkIdentity>());
         HeldObject = null;
+    }
+
+    [Command]
+    public void CmdRelease(Vector3 TossDirection)
+    {
+        HeldObject.Release(TossDirection);
+        CmdRemoveAuthority(HeldObject.GetComponent<NetworkIdentity>());
     }
 }

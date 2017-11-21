@@ -120,7 +120,7 @@ namespace Vital{
 
             } else if(Input.GetMouseButtonUp(1)){
                 Debug.Log("Released Charge button!");
-                hand.CmdRelease();
+                hand.Release();
             }
 
             float dY = -movementSettings.FallSpeed;
