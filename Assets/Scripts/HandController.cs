@@ -11,7 +11,14 @@ public class HandController : NetworkBehaviour
     private const int INTERACTIVE = 1 << 8;
     public HoldableItem HeldObject;
     public float ThrowSpeed;
-    private float ChargeLevel;
+    private float _chargeLevel;
+    private float ChargeLevel {
+        get { return _chargeLevel; }
+        set {
+            _chargeLevel = Mathf.Clamp(value, 0f, 100.0f);
+            Debug.LogFormat("Charge set to {0}/100", _chargeLevel);
+        }
+    }
     private float ChargeMax = 100.0f;
     private NetworkIdentity networkIdentity;
 
@@ -89,6 +96,7 @@ public class HandController : NetworkBehaviour
     }
 
     public void Release(){
+        Debug.LogFormat("Release with charge level {0}", ChargeLevel);
         Vector3 TossDirection =
             (transform.forward * ChargeLevel) +
             (transform.up * 3.0f);
