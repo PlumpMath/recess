@@ -16,7 +16,6 @@ public class HandController : NetworkBehaviour
         get { return _chargeLevel; }
         set {
             _chargeLevel = Mathf.Clamp(value, 0f, 100.0f);
-            Debug.LogFormat("Charge set to {0}/100", _chargeLevel);
         }
     }
     private float ChargeMax = 100.0f;
@@ -73,8 +72,6 @@ public class HandController : NetworkBehaviour
     {
         GameObject obj = ClosestInteractableObject();
         if(obj){
-            Debug.LogFormat("Grab the {0}!", obj.name);
-
             NetworkIdentity objectIdentity = obj.GetComponent<NetworkIdentity>();
             NetworkConnection ownerConnection = objectIdentity.clientAuthorityOwner;
 
@@ -96,16 +93,11 @@ public class HandController : NetworkBehaviour
 
     public void Charge()
     {
-        if (ChargeLevel <= ChargeMax)
-        {
-            ChargeLevel += Time.deltaTime * ThrowSpeed;
-        }
-
+        ChargeLevel += Time.deltaTime * ThrowSpeed;
         PowerFill.fillAmount = ChargeLevel / 100;
     }
 
     public void Release(){
-        Debug.LogFormat("Release with charge level {0}", ChargeLevel);
         Vector3 TossDirection =
             (transform.forward * ChargeLevel) +
             (transform.up * 3.0f);

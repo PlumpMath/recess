@@ -111,18 +111,15 @@ namespace Vital{
                 hand.CmdGrab();
             }
 
-            if(Input.GetMouseButton(1)){
-                Debug.Log("Charge button is being pressed....");
-                if(hand.HeldObject != null){
-                    Debug.Log("hand.HeldObject is true!");
+            if(hand.HeldObject != null){
+                if (Input.GetMouseButton(1))
+                {
                     hand.Charge();
-                } else {
-                    Debug.Log("But I'm not holding anything so why bother?");
                 }
-
-            } else if(Input.GetMouseButtonUp(1)){
-                Debug.Log("Released Charge button!");
-                hand.Release();
+                else if (Input.GetMouseButtonUp(1))
+                {
+                    hand.Release();
+                }
             }
 
             float dY = -movementSettings.FallSpeed;
@@ -176,7 +173,6 @@ namespace Vital{
         }
 
         void GetCollectible(GameObject c){
-            Debug.LogFormat("Picked up a {0}!", c.name);
             Collectibles.Add(c);
         }
 
