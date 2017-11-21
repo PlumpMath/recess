@@ -81,8 +81,14 @@ public class HandController : NetworkBehaviour
             if(ownerConnection == null){
                 CmdSetAuthority(objectIdentity);
                 HeldObject = obj.GetComponent<HoldableItem>().PickUp(gameObject);
+                RpcGrab(HeldObject);
             }
         }
+    }
+
+    [ClientRpc]
+    public void RpcGrab(HoldableItem item){
+        HeldObject = item;
     }
 
     public void Charge()
