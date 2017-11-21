@@ -67,7 +67,6 @@ namespace Vital{
         }
 
         private bool IsJumping = false;
-        private bool IsHolding;
         private bool IsCharging;
 
         void Awake(){
@@ -115,24 +114,19 @@ namespace Vital{
             }
 
             // If character isnt holding anything
-            if (Input.GetMouseButtonDown(0) && !IsHolding) {
-                hand.Grab();
-                if(hand.HeldObject != null) {
-                    IsHolding = true;
+            if (Input.GetMouseButtonDown(0) && !hand.HeldObject) {
+                hand.CmdGrab();
+            }
+
+            if(hand.HeldObject != null){
+                if (Input.GetMouseButton(1))
+                {
+                    hand.Charge();
                 }
-            }
-
-            // If characer has object, allow charge
-            if (Input.GetMouseButton(1) && IsHolding) {
-                hand.Charge();
-                IsCharging = true;
-            }
-
-            // If charging, throw on release
-            if (Input.GetMouseButtonUp(1) && IsCharging) {
-                hand.Release();
-                IsCharging = false;
-                IsHolding = false;
+                else if (Input.GetMouseButtonUp(1))
+                {
+                    hand.Release();
+                }
             }
 
             float dY = -movementSettings.FallSpeed;
@@ -299,7 +293,6 @@ namespace Vital{
 
             // Apply force while standing on or jumping into objects
             other.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
-
         }
     }
 }

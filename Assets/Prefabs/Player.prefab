@@ -27,7 +27,6 @@ GameObject:
   - component: {fileID: 114831185555644294}
   - component: {fileID: 114720703021759736}
   - component: {fileID: 114456320046860916}
-  - component: {fileID: 135415648979361254}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -279,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3590d326da4495c94824b9ca9f917c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 1230624438907688}
   HeldObject: {fileID: 0}
+  Hand: {fileID: 1230624438907688}
   ThrowSpeed: 40
 --- !u!114 &114572628643796498
 MonoBehaviour:
@@ -385,7 +384,18 @@ MonoBehaviour:
     m_TypeName: ToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   onToggleRemote:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1319112717200026}
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: ToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114966155399277714
 MonoBehaviour:
@@ -398,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
+  m_TransformSyncMode: 4
   m_SendInterval: 0.1
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
@@ -408,18 +418,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!135 &135415648979361254
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1126485554188426}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.75
-  m_Center: {x: 0, y: 0, z: 1}
 --- !u!143 &143066299308598500
 CharacterController:
   m_ObjectHideFlags: 1

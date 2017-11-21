@@ -3205,6 +3205,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 1408063599163298, guid: c73160445f1b5384389429f93c9c15a7, type: 2}
+  - {fileID: 1368010907660346, guid: e429d547421114b469bf2f62f7af5490, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3262,14 +3263,14 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   m_ShowLobbyGUI: 0
   m_MaxPlayers: 8
-  m_MaxPlayersPerConnection: 8
-  m_MinPlayers: 2
+  m_MaxPlayersPerConnection: 1
+  m_MinPlayers: 1
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
   m_GamePlayerPrefab: {fileID: 1126485554188426, guid: f5e680fc318c94bd4b3e7fad2ab16c51,
     type: 2}
   m_LobbyScene: Game Lobby
-  m_PlayScene: Playground
+  m_PlayScene: Matt
   lobbySlots: []
   prematchCountdown: 3
   topPanel: {fileID: 11424994}
