@@ -29,6 +29,8 @@ namespace Vital{
         private CameraFollow CameraController;
         private float MovementSpeed;
         private float jumpStartTime;
+        private float JumpHeight = 1;
+        private float JumpHeightRunning = 1.2f;
         private float PowerUpTime;
         private int StarCount;
         private List<GameObject> Collectibles;
@@ -134,7 +136,6 @@ namespace Vital{
             }
 
             float dY = -movementSettings.FallSpeed;
-            float jumpHeight = 1;
             if(IsJumping){
                 float jumpTimeElapsed = Time.time - jumpStartTime;
                 float jumpCoeff = (movementSettings.JumpTime - jumpTimeElapsed) / movementSettings.JumpTime;
@@ -144,12 +145,12 @@ namespace Vital{
 
             if (Input.GetKey(KeyCode.LeftShift)) {
                 MovementSpeed = movementSettings.RunSpeed;
-                jumpHeight = 1.2f;
+                JumpHeight = JumpHeightRunning;
             } else {
                 MovementSpeed = movementSettings.WalkSpeed;
             }
             
-            moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * jumpHeight), (moveDirection.z * MovementSpeed));
+            moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * JumpHeight), (moveDirection.z * MovementSpeed));
 
             character.Move(moveDirection);
         }
@@ -225,11 +226,21 @@ namespace Vital{
                 GetPowerUp(other);
 
                 if (p.name == "Pumps") {
+                    GameObject BoostIcon = GameObject.Find("Speed Boost");
                     PowerUpTime = 5f;
                     movementSettings.WalkSpeed = movementSettings.WalkSpeed * 3;
                     movementSettings.RunSpeed = movementSettings.RunSpeed * 3;
-                    p.ActivatePower(PowerUpTime);
+                    p.ActivatePower(BoostIcon, PowerUpTime);
                     StartCoroutine(PowerUpPumps());
+                }
+
+                if (p.name == "Moon Shoes") {
+                    GameObject BoostIcon = GameObject.Find("Jump Boost");
+                    PowerUpTime = 10f;
+                    JumpHeight = JumpHeight * 3;
+                    JumpHeightRunning = JumpHeightRunning * 3;
+                    p.ActivatePower(BoostIcon, PowerUpTime);
+                    StartCoroutine(PowerUpMoonShoes());
                 }
             }
         }
@@ -242,6 +253,16 @@ namespace Vital{
         void PowerDownPumps() {
             movementSettings.WalkSpeed = movementSettings.WalkSpeed / 3;
             movementSettings.RunSpeed = movementSettings.RunSpeed / 3;
+        }
+
+        IEnumerator PowerUpMoonShoes() {
+            yield return new WaitForSeconds(PowerUpTime);
+            PowerDownMoonShoes();
+        }
+
+        void PowerDownMoonShoes() {
+            JumpHeight = JumpHeight / 3;
+            JumpHeightRunning = JumpHeightRunning / 3;
         }
 
 

@@ -7,21 +7,21 @@ using UnityEngine.UI;
 public class PowerUp : MonoBehaviour {
     private float TimePassed;
     private float TimeTotal;
-    private Image SpeedBoostIcon;
+    private Image BoostIconActive;
     public bool CoolDown;
 
-    public void ActivatePower(float PowerUpTime) {
+    public void ActivatePower(GameObject BoostIcon, float PowerUpTime) {
+        BoostIcon = BoostIcon.transform.Find("Boost Active").gameObject;
         float TimeTotal = PowerUpTime;
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<Collider>().enabled = false;
-        StartCoroutine(PowerUpIcon(TimeTotal));
+        StartCoroutine(PowerUpIcon(BoostIcon, TimeTotal));
     }
 
-    public IEnumerator PowerUpIcon(float TimeTotal) {
-        GameObject SpeedBoost = GameObject.Find("Boost Active");
-        if (SpeedBoost != null) {
-            SpeedBoostIcon = SpeedBoost.GetComponent<Image>();
-            SpeedBoostIcon.fillAmount = 100;
+    public IEnumerator PowerUpIcon(GameObject BoostIcon, float TimeTotal) {
+        if (BoostIcon != null) {
+            BoostIconActive = BoostIcon.GetComponent<Image>();
+            BoostIconActive.fillAmount = 100;
             CoolDown = true;
         }
 
@@ -29,10 +29,10 @@ public class PowerUp : MonoBehaviour {
             TimePassed += Time.deltaTime;
 
             if(CoolDown == true ) {
-                SpeedBoostIcon.fillAmount -= 1.0f / TimeTotal * Time.deltaTime;
+                BoostIconActive.fillAmount -= 1.0f / TimeTotal * Time.deltaTime;
             }
 
-            if(SpeedBoostIcon.fillAmount <= 0) {
+            if(BoostIconActive.fillAmount <= 0) {
                 CoolDown = false;
             }
 
