@@ -30,6 +30,7 @@ namespace Vital{
         private float MovementSpeed;
         private float jumpStartTime;
         private float PowerUpTime;
+        private int StarCount;
         private List<GameObject> Collectibles;
         private List<GameObject> PowerUps;
         private GameObject _standingOn;
@@ -74,6 +75,7 @@ namespace Vital{
 
             Collectibles = new List<GameObject>();
             PowerUps = new List<GameObject>();
+            StarCount = 0;
         }
 
         void Start(){
@@ -203,7 +205,18 @@ namespace Vital{
                 c.PickMeUp();
 
                 if (c.name == "Gold Star") {
-                    c.AddOneStar();
+                    StarCount = StarCount + 1;
+                    c.AddStars(StarCount);
+                }
+
+                if (c.name == "Green Star") {
+                    StarCount = StarCount + 2;
+                    c.AddStars(StarCount);
+                }
+
+                if (c.name == "Red Star") {
+                    StarCount = StarCount + 5;
+                    c.AddStars(StarCount);
                 }
 
             }

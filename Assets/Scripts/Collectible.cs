@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Collectible : MonoBehaviour {
     private Image StarIcon;
-    private Text StarCountLabl;
-    private float StarCount;
+    private Text StarCountLabel;
+    private int StarCount;
     private float TotalStars;
 
     public void PickMeUp(){
@@ -16,18 +16,13 @@ public class Collectible : MonoBehaviour {
         GetComponent<ParticleSystem>().Stop();
 	}
 
-    public void AddOneStar() {
-        StarCount += StarCount + 1;
-        ActivateStar(StarCount);
-    }
-
-    public void ActivateStar(float StarCount) {
-        float TotalStars = StarCount;
+    public void AddStars(int StarCount) {
         GameObject Star = GameObject.Find("Star Full");
         GameObject StarCountLabel = GameObject.Find("Star Count");
         StarIcon = Star.GetComponent<Image>();
         StarIcon.fillAmount = 100;
         StarCountLabel.GetComponent<Text>().enabled = true;
-        StarCountLabel.GetComponent<Text>().text = TotalStars.ToString();
+        StarCountLabel.GetComponent<Text>().text = StarCount.ToString();
+        Debug.Log(StarCount);
     }
 }
