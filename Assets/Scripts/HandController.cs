@@ -65,8 +65,6 @@ public class HandController : NetworkBehaviour
                 }
             } else {
                 Debug.Log("NO OWNER, GIMMIE DAT");
-
-                objectIdentity.localPlayerAuthority = true;
                 objectIdentity.AssignClientAuthority(networkIdentity.connectionToClient);
 
                 HeldObject = obj.GetComponent<HoldableItem>().PickUp(gameObject);

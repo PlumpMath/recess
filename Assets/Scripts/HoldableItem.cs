@@ -17,6 +17,11 @@ public class HoldableItem : NetworkBehaviour
         networkIdentity = GetComponent<NetworkIdentity>();
     }
 
+    void Start()
+    {
+        networkIdentity.localPlayerAuthority = true;
+    }
+
     public HoldableItem PickUp(GameObject owner)
     {
         CmdPickUp(owner);
