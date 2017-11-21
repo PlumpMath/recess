@@ -186,7 +186,6 @@ namespace Vital{
         }
 
         void GetCollectible(GameObject c){
-            Debug.LogFormat("Picked up a {0}!", c.name);
             Collectibles.Add(c);
         }
 
@@ -202,6 +201,11 @@ namespace Vital{
             if (c) {
                 GetCollectible(other);
                 c.PickMeUp();
+
+                if (c.name == "Gold Star") {
+                    c.AddOneStar();
+                }
+
             }
 
             if (p) {

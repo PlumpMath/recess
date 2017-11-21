@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 33464782604552778}
   - component: {fileID: 65477238685422464}
   - component: {fileID: 23491512656867602}
-  - component: {fileID: 114179441583837398}
+  - component: {fileID: 114884352465936966}
   - component: {fileID: 114239178704537430}
   m_Layer: 0
   m_Name: Pumps
@@ -126,17 +126,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114179441583837398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1510440767625140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d65b3d8ca12851e4eac17de1b4c151ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114239178704537430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,3 +158,15 @@ MonoBehaviour:
     i15: 233
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114884352465936966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1510440767625140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65b3d8ca12851e4eac17de1b4c151ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CoolDown: 0

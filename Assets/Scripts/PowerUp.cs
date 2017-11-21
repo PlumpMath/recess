@@ -18,7 +18,7 @@ public class PowerUp : MonoBehaviour {
     }
 
     public IEnumerator PowerUpIcon(float TimeTotal) {
-        GameObject SpeedBoost = GameObject.Find("Speed Boost");
+        GameObject SpeedBoost = GameObject.Find("Boost Active");
         if (SpeedBoost != null) {
             SpeedBoostIcon = SpeedBoost.GetComponent<Image>();
             SpeedBoostIcon.fillAmount = 100;
