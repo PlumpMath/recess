@@ -95,11 +95,12 @@ public class HandController : NetworkBehaviour
             (transform.forward * ChargeLevel) +
             (transform.up * 3.0f);
 
-        CmdRemoveAuthority(HeldObject.GetComponent<NetworkIdentity>());
         HoldableItem releasedItem = HeldObject.Release(TossDirection);
 
         ChargeLevel = 0;
         PowerFill.fillAmount = 0;
+
+        CmdRemoveAuthority(HeldObject.GetComponent<NetworkIdentity>());
         HeldObject = null;
     }
 }
