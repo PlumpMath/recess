@@ -32,7 +32,7 @@ public class HandController : NetworkBehaviour
     {
         networkIdentity = GetComponent<NetworkIdentity>();
 
-        GameObject pbf = GameObject.Find("Power Bar");
+        GameObject pbf = GameObject.Find("Power Bar Fill");
         if (pbf != null)
         {
             PowerFill = pbf.GetComponent<Image>();
