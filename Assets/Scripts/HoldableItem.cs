@@ -31,13 +31,18 @@ public class HoldableItem : NetworkBehaviour
     [Command]
     public void CmdPickUp(GameObject owner)
     {
-        Debug.LogFormat("{0} was picked up by {1}", gameObject.name, owner.name);
-        Owner = owner;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        RpcPickUp(owner);
         NetworkIdentity networkIdentity = owner.GetComponent<NetworkIdentity>();
         if(networkIdentity != null){
             ServerSetParent(networkIdentity);
         }
+    }
+
+    [ClientRpc]
+    public void RpcPickUp(GameObject owner){
+        Debug.LogFormat("{0} was picked up by {1}", gameObject.name, owner.name);
+        Owner = owner;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public HoldableItem Release(Vector3 TossDirection)
@@ -49,11 +54,16 @@ public class HoldableItem : NetworkBehaviour
     [Command]
     public void CmdRelease(Vector3 TossDirection)
     {
+        ServerSetParent(null);
+        RpcClientRelease(TossDirection);
+    }
+
+    [ClientRpc]
+    public void RpcClientRelease(Vector3 TossDirection){
         Debug.LogFormat("{0} was dropped by {1}", gameObject.name, Owner.name);
         Owner = null;
         rb.constraints = RigidbodyConstraints.None;
         rb.AddForce(TossDirection, ForceMode.Impulse);
-        ServerSetParent(null);
     }
 
     public void ServerSetParent(NetworkIdentity parentNetworkIdentity){
