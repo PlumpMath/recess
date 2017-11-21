@@ -227,18 +227,25 @@ namespace Vital{
 
                 if (p.name == "Pumps") {
                     GameObject BoostIcon = GameObject.Find("Speed Boost");
-                    PowerUpTime = 5f;
+                    PowerUpTime = 10f;
+
                     movementSettings.WalkSpeed = movementSettings.WalkSpeed * 3;
                     movementSettings.RunSpeed = movementSettings.RunSpeed * 3;
+
                     p.ActivatePower(BoostIcon, PowerUpTime);
                     StartCoroutine(PowerUpPumps());
                 }
 
                 if (p.name == "Moon Shoes") {
                     GameObject BoostIcon = GameObject.Find("Jump Boost");
-                    PowerUpTime = 10f;
-                    JumpHeight = JumpHeight * 3;
-                    JumpHeightRunning = JumpHeightRunning * 3;
+                    PowerUpTime = 20f;
+
+                    JumpHeight = JumpHeight * 2;
+                    JumpHeightRunning = JumpHeightRunning * 2;
+                    movementSettings.JumpSpeed = movementSettings.JumpSpeed / 2;
+                    movementSettings.FallSpeed = movementSettings.FallSpeed / 2;
+                    movementSettings.JumpTime = movementSettings.JumpTime * 2;
+                    
                     p.ActivatePower(BoostIcon, PowerUpTime);
                     StartCoroutine(PowerUpMoonShoes());
                 }
@@ -250,19 +257,22 @@ namespace Vital{
             PowerDownPumps();
         }
 
-        void PowerDownPumps() {
-            movementSettings.WalkSpeed = movementSettings.WalkSpeed / 3;
-            movementSettings.RunSpeed = movementSettings.RunSpeed / 3;
-        }
-
         IEnumerator PowerUpMoonShoes() {
             yield return new WaitForSeconds(PowerUpTime);
             PowerDownMoonShoes();
         }
 
+        void PowerDownPumps() {
+            movementSettings.WalkSpeed = movementSettings.WalkSpeed / 3;
+            movementSettings.RunSpeed = movementSettings.RunSpeed / 3;
+        }
+
         void PowerDownMoonShoes() {
-            JumpHeight = JumpHeight / 3;
-            JumpHeightRunning = JumpHeightRunning / 3;
+            JumpHeight = JumpHeight / 2;
+            JumpHeightRunning = JumpHeightRunning / 2;
+            movementSettings.JumpSpeed = movementSettings.JumpSpeed * 2;
+            movementSettings.FallSpeed = movementSettings.FallSpeed * 2;
+            movementSettings.JumpTime = movementSettings.JumpTime / 2;
         }
 
 
