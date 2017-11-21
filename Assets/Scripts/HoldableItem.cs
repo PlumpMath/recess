@@ -47,6 +47,7 @@ public class HoldableItem : NetworkBehaviour
 
     public HoldableItem Release(Vector3 TossDirection)
     {
+        Debug.Log("Release()");
         CmdRelease(TossDirection);
         return this;
     }
@@ -54,15 +55,18 @@ public class HoldableItem : NetworkBehaviour
     [Command]
     public void CmdRelease(Vector3 TossDirection)
     {
+        Debug.Log("CmdRelease()");
         ServerSetParent(null);
         RpcClientRelease(TossDirection);
     }
 
     [ClientRpc]
     public void RpcClientRelease(Vector3 TossDirection){
+        Debug.Log("RpcClientRelease()");
         Debug.LogFormat("{0} was dropped by {1}", gameObject.name, Owner.name);
         Owner = null;
         rb.isKinematic = false;
+        Debug.LogFormat("Add force {0}", TossDirection);
         rb.AddForce(TossDirection, ForceMode.Impulse);
     }
 

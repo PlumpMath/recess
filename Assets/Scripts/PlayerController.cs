@@ -111,16 +111,16 @@ namespace Vital{
                 hand.CmdGrab();
             }
 
-            // If characer has object, allow charge
-            if (Input.GetMouseButton(1) && hand.HeldObject) {
-                hand.Charge();
-                IsCharging = true;
-            }
+            if(Input.GetMouseButton(1)){
+                Debug.Log("Charge button is being pressed....");
+                if(hand.HeldObject != null){
+                    Debug.Log("hand.HeldObject is true!");
+                    hand.Charge();
+                }
 
-            // If charging, throw on release
-            if (Input.GetMouseButtonUp(1) && IsCharging) {
+            } else if(Input.GetMouseButtonUp(1)){
+                Debug.Log("Released Charge button!");
                 hand.CmdRelease();
-                IsCharging = false;
             }
 
             float dY = -movementSettings.FallSpeed;
