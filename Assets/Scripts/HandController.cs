@@ -84,18 +84,18 @@ public class HandController : NetworkBehaviour
         PowerFill.fillAmount = ChargeLevel / 100;
     }
 
-
-    public void Release()
+    [Command]
+    public void CmdRelease()
     {
-        HoldableItem releasedItem = HeldObject.Release();
         Vector3 TossDirection =
             (transform.forward * ChargeLevel) +
             (transform.up * 3.0f);
-        Rigidbody rb = releasedItem.gameObject.GetComponent<Rigidbody>();
-        rb.AddForce(TossDirection, ForceMode.Impulse);
+
+        HoldableItem releasedItem = HeldObject.Release(TossDirection);
+
         ChargeLevel = 0;
         PowerFill.fillAmount = 0;
-
+        HeldObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(networkIdentity.connectionToClient);
         HeldObject = null;
     }
 }

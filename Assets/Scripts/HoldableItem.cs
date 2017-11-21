@@ -35,25 +35,19 @@ public class HoldableItem : NetworkBehaviour
         }
     }
 
-    public HoldableItem Release()
+    public HoldableItem Release(Vector3 TossDirection)
     {
-        CmdRelease();
-        NetworkConnection authority = networkIdentity.clientAuthorityOwner;
-
-        if (authority != null)
-        {
-            networkIdentity.RemoveClientAuthority(authority);
-            networkIdentity.localPlayerAuthority = false;
-        }
+        CmdRelease(TossDirection);
         return this;
     }
 
     [Command]
-    public void CmdRelease()
+    public void CmdRelease(Vector3 TossDirection)
     {
         Debug.LogFormat("{0} was dropped by {1}", gameObject.name, Owner.name);
         Owner = null;
         rb.constraints = RigidbodyConstraints.None;
+        rb.AddForce(TossDirection, ForceMode.Impulse);
         ServerSetParent(null);
     }
 

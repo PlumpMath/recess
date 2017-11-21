@@ -113,15 +113,13 @@ namespace Vital{
 
             // If characer has object, allow charge
             if (Input.GetMouseButton(1) && hand.HeldObject) {
-                Debug.Log("chargin mah laser...");
                 hand.Charge();
                 IsCharging = true;
             }
 
             // If charging, throw on release
             if (Input.GetMouseButtonUp(1) && IsCharging) {
-                Debug.Log("RELEASE MOUSE BUTTON");
-                hand.Release();
+                hand.CmdRelease();
                 IsCharging = false;
             }
 
@@ -214,7 +212,6 @@ namespace Vital{
 
             // Apply force while standing on or jumping into objects
             other.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
-
         }
     }
 }
