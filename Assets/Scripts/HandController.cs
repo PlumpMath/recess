@@ -50,23 +50,29 @@ public class HandController : NetworkBehaviour
     }
 
     [Command]
+    void CmdSetAuthority(NetworkIdentity itemID)
+    {
+        itemID.AssignClientAuthority(connectionToClient);
+    }
+
+    [Command]
+    void CmdRemoveAuthority(NetworkIdentity itemID)
+    {
+        itemID.RemoveClientAuthority(connectionToClient);
+    }
+
+    [Command]
     public void CmdGrab()
     {
         GameObject obj = ClosestInteractableObject();
         if(obj){
-
             Debug.LogFormat("Grab the {0}!", obj.name);
 
             NetworkIdentity objectIdentity = obj.GetComponent<NetworkIdentity>();
             NetworkConnection ownerConnection = objectIdentity.clientAuthorityOwner;
-            if(ownerConnection != null){
-                if(ownerConnection == networkIdentity.connectionToClient){
-                    Debug.Log("Already the owner");
-                }
-            } else {
-                Debug.Log("NO OWNER, GIMMIE DAT");
-                objectIdentity.AssignClientAuthority(networkIdentity.connectionToClient);
 
+            if(ownerConnection == null){
+                CmdSetAuthority(objectIdentity);
                 HeldObject = obj.GetComponent<HoldableItem>().PickUp(gameObject);
             }
         }
@@ -89,11 +95,11 @@ public class HandController : NetworkBehaviour
             (transform.forward * ChargeLevel) +
             (transform.up * 3.0f);
 
+        CmdRemoveAuthority(HeldObject.GetComponent<NetworkIdentity>());
         HoldableItem releasedItem = HeldObject.Release(TossDirection);
 
         ChargeLevel = 0;
         PowerFill.fillAmount = 0;
-        HeldObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(networkIdentity.connectionToClient);
         HeldObject = null;
     }
 }
