@@ -279,7 +279,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeldObject: {fileID: 0}
-  Hand: {fileID: 1230624438907688}
   ThrowSpeed: 40
 --- !u!114 &114572628643796498
 MonoBehaviour:
@@ -366,11 +365,11 @@ MonoBehaviour:
   movementSettings:
     WalkSpeed: 10
     RunSpeed: 30
-    FallSpeed: 2.75
-    JumpSpeed: 3.25
-    JumpTime: 0.2
+    FallSpeed: 20
+    JumpSpeed: 25
+    JumpTime: 0.25
     PushPower: 3
-    Weight: 2
+    Weight: 10
   NamePlate: {fileID: 0}
   PlayerName: 
   PlayerColor: {r: 0, g: 0, b: 0, a: 0}

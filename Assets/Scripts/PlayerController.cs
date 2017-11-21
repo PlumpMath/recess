@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -19,8 +20,7 @@ public struct PlayerMovementSettings{
 public class ToggleEvent : UnityEvent<bool> { }
 
 namespace Vital{
-    public class PlayerController : NetworkBehaviour
-    {
+    public class PlayerController : NetworkBehaviour {
         public PlayerMovementSettings movementSettings;
         public Text NamePlate;
 
@@ -29,7 +29,12 @@ namespace Vital{
         private CameraFollow CameraController;
         private float MovementSpeed;
         private float jumpStartTime;
+        private float JumpHeight = 1;
+        private float JumpHeightRunning = 1.2f;
+        private float PowerUpTime;
+        private int StarCount;
         private List<GameObject> Collectibles;
+        private List<GameObject> PowerUps;
         private GameObject _standingOn;
 
         public GameObject StandingOn {
@@ -70,6 +75,8 @@ namespace Vital{
             CameraController = GetComponent<CameraFollow>();
 
             Collectibles = new List<GameObject>();
+            PowerUps = new List<GameObject>();
+            StarCount = 0;
         }
 
         void Start(){
@@ -132,11 +139,14 @@ namespace Vital{
 
             if (Input.GetKey(KeyCode.LeftShift)) {
                 MovementSpeed = movementSettings.RunSpeed;
+                JumpHeight = JumpHeightRunning;
             } else {
                 MovementSpeed = movementSettings.WalkSpeed;
             }
+            
+            moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * JumpHeight), (moveDirection.z * MovementSpeed));
 
-            character.Move(moveDirection * MovementSpeed);
+            character.Move(moveDirection);
         }
 
         void Jump()
@@ -176,14 +186,87 @@ namespace Vital{
             Collectibles.Add(c);
         }
 
+        void GetPowerUp(GameObject p) {
+            PowerUps.Add(p);
+        }
+
         void OnTriggerEnter(Collider hit){
             GameObject other = hit.gameObject;
             Collectible c = other.GetComponent<Collectible>();
+            PowerUp p = other.GetComponent<PowerUp>();
 
             if (c) {
                 GetCollectible(other);
                 c.PickMeUp();
+
+                if (c.name == "Gold Star") {
+                    StarCount = StarCount + 1;
+                    c.AddStars(StarCount);
+                }
+
+                if (c.name == "Green Star") {
+                    StarCount = StarCount + 2;
+                    c.AddStars(StarCount);
+                }
+
+                if (c.name == "Red Star") {
+                    StarCount = StarCount + 5;
+                    c.AddStars(StarCount);
+                }
+
             }
+
+            if (p) {
+                GetPowerUp(other);
+
+                if (p.name == "Pumps") {
+                    GameObject BoostIcon = GameObject.Find("Speed Boost");
+                    PowerUpTime = 10f;
+
+                    movementSettings.WalkSpeed = movementSettings.WalkSpeed * 3;
+                    movementSettings.RunSpeed = movementSettings.RunSpeed * 3;
+
+                    p.ActivatePower(BoostIcon, PowerUpTime);
+                    StartCoroutine(PowerUpPumps());
+                }
+
+                if (p.name == "Moon Shoes") {
+                    GameObject BoostIcon = GameObject.Find("Jump Boost");
+                    PowerUpTime = 20f;
+
+                    JumpHeight = JumpHeight * 2;
+                    JumpHeightRunning = JumpHeightRunning * 2;
+                    movementSettings.JumpSpeed = movementSettings.JumpSpeed / 2;
+                    movementSettings.FallSpeed = movementSettings.FallSpeed / 2;
+                    movementSettings.JumpTime = movementSettings.JumpTime * 2;
+                    
+                    p.ActivatePower(BoostIcon, PowerUpTime);
+                    StartCoroutine(PowerUpMoonShoes());
+                }
+            }
+        }
+
+        IEnumerator PowerUpPumps() {
+            yield return new WaitForSeconds(PowerUpTime);
+            PowerDownPumps();
+        }
+
+        IEnumerator PowerUpMoonShoes() {
+            yield return new WaitForSeconds(PowerUpTime);
+            PowerDownMoonShoes();
+        }
+
+        void PowerDownPumps() {
+            movementSettings.WalkSpeed = movementSettings.WalkSpeed / 3;
+            movementSettings.RunSpeed = movementSettings.RunSpeed / 3;
+        }
+
+        void PowerDownMoonShoes() {
+            JumpHeight = JumpHeight / 2;
+            JumpHeightRunning = JumpHeightRunning / 2;
+            movementSettings.JumpSpeed = movementSettings.JumpSpeed * 2;
+            movementSettings.FallSpeed = movementSettings.FallSpeed * 2;
+            movementSettings.JumpTime = movementSettings.JumpTime / 2;
         }
 
 
