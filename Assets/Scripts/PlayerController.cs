@@ -116,6 +116,8 @@ namespace Vital{
                 if(hand.HeldObject != null){
                     Debug.Log("hand.HeldObject is true!");
                     hand.Charge();
+                } else {
+                    Debug.Log("But I'm not holding anything so why bother?");
                 }
 
             } else if(Input.GetMouseButtonUp(1)){
