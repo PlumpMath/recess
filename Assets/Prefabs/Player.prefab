@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114831185555644294}
   - component: {fileID: 114720703021759736}
   - component: {fileID: 114456320046860916}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4177244706952418}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 33473693010174104}
   - component: {fileID: 65754874761216208}
   - component: {fileID: 23562787157654456}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Visor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 222347819419111308}
   - component: {fileID: 114145411646252054}
   - component: {fileID: 114112848366464084}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerNameCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
