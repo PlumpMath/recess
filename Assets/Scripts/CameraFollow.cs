@@ -45,14 +45,35 @@ public class CameraFollow : NetworkBehaviour {
 		mainCamera = Camera.main;
 	}
 
+    Vector2 GetCameraInput(){
+        float x = 0;
+        float y = 0;
+
+        if(Input.GetAxis("Mouse X") != 0){
+            x = Input.GetAxis("Mouse X") * 0.25f;
+        } else if(Input.GetAxis("CameraHorizontal") != 0){
+            x = Input.GetAxis("CameraHorizontal") * 0.25f;
+        }
+
+        if(Input.mouseScrollDelta.y != 0){
+            y = Input.mouseScrollDelta.y * 0.05f;
+        } else if(Input.GetAxis("CameraVertical") != 0){
+            y = Input.GetAxis("CameraVertical") * 0.05f;
+        }
+
+        return new Vector2(x, y);
+    }
+
 	void Update () {
         if(!isLocalPlayer){
             return;
         }
 
-        CameraAngle += Input.GetAxis("Mouse X") * 0.25f;
+        Vector2 cameraInput = GetCameraInput();
+
+        CameraAngle += cameraInput.x;
         CameraAngle = Mathf.Repeat(CameraAngle, Mathf.PI * 2.0f);
-        CameraDistance = Mathf.Clamp01(CameraDistance + (Input.mouseScrollDelta.y * 0.05f));
+        CameraDistance = Mathf.Clamp01(CameraDistance + cameraInput.y);
 
         mainCamera.transform.position = CameraPosition();
         mainCamera.transform.LookAt(new Vector3(transform.position.x, GroundLevel, transform.position.z));

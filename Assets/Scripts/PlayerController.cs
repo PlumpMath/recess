@@ -106,24 +106,24 @@ namespace Vital{
                 );
             }
 
-            if (character.isGrounded && Input.GetKeyDown(KeyCode.Space)) {
+            if (character.isGrounded && Input.GetButtonDown("Jump")) {
                 Jump();
-            } else if(IsJumping && Input.GetKeyUp(KeyCode.Space)){
+            } else if(IsJumping && Input.GetButtonUp("Jump")){
                 CancelInvoke("FinishJump");
                 FinishJump();
             }
 
             // If character isnt holding anything
-            if (Input.GetMouseButtonDown(0) && !hand.HeldObject) {
+            if (Input.GetButtonDown("Fire1") && !hand.HeldObject) {
                 hand.CmdGrab();
             }
 
             if(hand.HeldObject != null){
-                if (Input.GetMouseButton(1))
+                if (Input.GetButton("Fire2"))
                 {
                     hand.Charge();
                 }
-                else if (Input.GetMouseButtonUp(1))
+                else if (Input.GetButtonUp("Fire2"))
                 {
                     hand.Release();
                 }
@@ -137,13 +137,13 @@ namespace Vital{
             }
             moveDirection.y = dY * Time.deltaTime;
 
-            if (Input.GetKey(KeyCode.LeftShift)) {
+            if (Input.GetButton("Fire3")) {
                 MovementSpeed = movementSettings.RunSpeed;
                 JumpHeight = JumpHeightRunning;
             } else {
                 MovementSpeed = movementSettings.WalkSpeed;
             }
-            
+
             moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * JumpHeight), (moveDirection.z * MovementSpeed));
 
             character.Move(moveDirection);
@@ -239,7 +239,7 @@ namespace Vital{
                     movementSettings.JumpSpeed = movementSettings.JumpSpeed / 2;
                     movementSettings.FallSpeed = movementSettings.FallSpeed / 2;
                     movementSettings.JumpTime = movementSettings.JumpTime * 2;
-                    
+
                     p.ActivatePower(BoostIcon, PowerUpTime);
                     StartCoroutine(PowerUpMoonShoes());
                 }
