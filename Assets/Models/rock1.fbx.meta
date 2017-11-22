@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7b083235653e7456bbaef81846d3cf1c
-timeCreated: 1510783954
+guid: b8ea50d1aedf04378a53b8716ac22960
+timeCreated: 1510771347
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cylinder
+    4300000: Icosphere
   externalObjects:
   - first:
       type: UnityEngine:Material
