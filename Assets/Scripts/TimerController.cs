@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TimerController : MonoBehaviour {
-     float TimeLeft = 10.0f;
+     float TimeLeft = 300.0f;
      
      public Text Timer;
      private float Minutes;
