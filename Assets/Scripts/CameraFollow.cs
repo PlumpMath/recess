@@ -116,8 +116,15 @@ public class CameraFollow : NetworkBehaviour {
 
             foreach (GameObject o in ObscuringPlayer.ToList())
             {
-                if (hits.Select(h => h.collider.gameObject == o).Count() == 0)
-                {
+                bool stillObscuringPlayer = false;
+                foreach(var h in hits){
+                    if(h.collider.gameObject == o){
+                        stillObscuringPlayer = true;
+                        break;
+                    }
+                }
+
+                if(!stillObscuringPlayer){
                     Fader f = o.GetComponentInParent<Fader>();
                     if (f)
                     {

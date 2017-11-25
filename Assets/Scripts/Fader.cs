@@ -12,15 +12,14 @@ public enum FadeDirection
 public class Fader : MonoBehaviour
 {
     Renderer[] renderers;
-    Color startColor;
     Color currentColor;
-    Color endColor;
     bool shouldFade = false;
     FadeDirection fadeDirection;
 
     float startTime;
     float t;
-    private float fadeTime = 0.2f;
+    private float fadeTime = 0.15f;
+    private float minAlpha = 0.1f;
 
     void Awake()
     {
@@ -29,11 +28,6 @@ public class Fader : MonoBehaviour
         if (renderers == null || renderers.Length == 0)
         {
             return;
-        }
-        else
-        {
-            startColor = renderers[0].material.color;
-            endColor = new Color(startColor.r, startColor.g, startColor.b, 0.0f);
         }
     }
     void Start()
@@ -48,20 +42,23 @@ public class Fader : MonoBehaviour
         {
             t = (Time.time - startTime) / fadeTime;
 
-            foreach(Renderer r in renderers){
+            foreach (Renderer r in renderers)
+            {
                 Color color = r.material.color;
+                float alpha = 1.0f;
 
                 switch (fadeDirection)
                 {
                     case FadeDirection.FADE_OUT:
-                        color.a = 1.0f - t;
+                        alpha = 1.0f - t;
                         break;
 
                     case FadeDirection.FADE_IN:
-                        color.a = t;
+                        alpha = t;
                         break;
                 }
 
+                color.a = Mathf.Max(minAlpha, alpha);
                 r.material.SetColor("_Color", color);
             }
 
@@ -77,10 +74,24 @@ public class Fader : MonoBehaviour
         fadeDirection = direction;
         shouldFade = true;
         startTime = Time.time;
+
+        foreach (Renderer r in renderers)
+        {
+            StandardShaderUtils.ChangeRenderMode(r.material, StandardShaderUtils.BlendMode.Transparent);
+        }
     }
 
-    private void FinishFade(){
+    private void FinishFade()
+    {
         shouldFade = false;
+        if (fadeDirection == FadeDirection.FADE_IN)
+        {
+
+            foreach (Renderer r in renderers)
+            {
+                StandardShaderUtils.ChangeRenderMode(r.material, StandardShaderUtils.BlendMode.Opaque);
+            }
+        }
     }
 
     public void FadeOut()
