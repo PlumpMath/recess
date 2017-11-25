@@ -12,10 +12,5 @@ public class TextController : MonoBehaviour {
         instance = this;
     }
 
-    public Text ThrowPower;
-    public Image PowerBar;
-    public Image SpeedBoost;
-    public Image Star;
-    public Text StarCount;
 
 }

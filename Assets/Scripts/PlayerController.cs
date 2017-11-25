@@ -94,7 +94,7 @@ namespace Vital{
             if(!isLocalPlayer){
                 return;
             }
-
+            
             Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
             Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
 

@@ -350,7 +350,7 @@ MonoBehaviour:
   cameraMaxY: 6
   CameraDistance: 0.5
   CameraAngle: 0
-  CameraSpeed: 10
+  CameraSpeed: 20
 --- !u!114 &114831185555644294
 MonoBehaviour:
   m_ObjectHideFlags: 1
