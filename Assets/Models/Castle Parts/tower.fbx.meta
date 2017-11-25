@@ -1,73 +1,28 @@
 fileFormatVersion: 2
-guid: f0547e0c8d87f4af9999616371708ae2
-timeCreated: 1511289324
+guid: 311ac9c6de4ce403ea5465b386e9224c
+timeCreated: 1511621317
 licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Brick.012
-    100002: Brick.013
-    100004: Brick.014
-    100006: Brick.015
-    100008: Brick.016
-    100010: Brickwall 01.009
-    100012: Brickwall 01.010
-    100014: Brickwall 01.012
-    100016: Brickwall 01.013
-    100018: Cube.005
-    100020: Cube.006
-    100022: //RootNode
-    400000: Brick.012
-    400002: Brick.013
-    400004: Brick.014
-    400006: Brick.015
-    400008: Brick.016
-    400010: Brickwall 01.009
-    400012: Brickwall 01.010
-    400014: Brickwall 01.012
-    400016: Brickwall 01.013
-    400018: Cube.005
-    400020: Cube.006
-    400022: //RootNode
-    2300000: Brick.012
-    2300002: Brick.013
-    2300004: Brick.014
-    2300006: Brick.015
-    2300008: Brick.016
-    2300010: Brickwall 01.009
-    2300012: Brickwall 01.010
-    2300014: Brickwall 01.012
-    2300016: Brickwall 01.013
-    2300018: Cube.005
-    2300020: Cube.006
-    3300000: Brick.012
-    3300002: Brick.013
-    3300004: Brick.014
-    3300006: Brick.015
-    3300008: Brick.016
-    3300010: Brickwall 01.009
-    3300012: Brickwall 01.010
-    3300014: Brickwall 01.012
-    3300016: Brickwall 01.013
-    3300018: Cube.005
-    3300020: Cube.006
-    4300000: Brickwall 01.013
-    4300002: Brick.016
-    4300004: Brickwall 01.010
-    4300006: Brickwall 01.009
-    4300008: Brick.013
-    4300010: Brick.012
-    4300012: Brickwall 01.012
-    4300014: Brick.015
-    4300016: Brick.014
-    4300018: Cube.006
-    4300020: Cube.005
+    100000: Tower
+    100002: //RootNode
+    100004: Tower Collider
+    400000: Tower
+    400002: //RootNode
+    400004: Tower Collider
+    2300000: Tower
+    2300002: Tower Collider
+    3300000: Tower
+    3300002: Tower Collider
+    4300000: Tower Collider
+    4300002: Tower
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 441f62fdaf0de470e8bea4911f498d8f, type: 2}
+    second: {fileID: 2100000, guid: 7cb70c7e75b5e46889576a6eb9927c20, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

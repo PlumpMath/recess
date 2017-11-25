@@ -1,21 +1,28 @@
 fileFormatVersion: 2
-guid: c95bfd2097aaf4efb9946d4f7c501c85
-timeCreated: 1511289324
+guid: 3c60ac0220e3e4df4a384e8ec16c278b
+timeCreated: 1511613950
 licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cube.004
+    100000: Short Wall
+    100002: Short Wall Collider
+    100004: //RootNode
+    400000: Short Wall
+    400002: Short Wall Collider
+    400004: //RootNode
+    2300000: Short Wall
+    2300002: Short Wall Collider
+    3300000: Short Wall
+    3300002: Short Wall Collider
+    4300000: Short Wall
+    4300002: Short Wall Collider
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 441f62fdaf0de470e8bea4911f498d8f, type: 2}
+    second: {fileID: 2100000, guid: 7cb70c7e75b5e46889576a6eb9927c20, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -1,28 +1,28 @@
 fileFormatVersion: 2
-guid: 9aa488e9000604158ac60d78289d1018
-timeCreated: 1511289324
+guid: 0156e534b85b447e2bc01f528907dcfc
+timeCreated: 1511536871
 licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Brickwall 01.007
-    100002: //RootNode
-    100004: Stairs.001
-    400000: Brickwall 01.007
-    400002: //RootNode
-    400004: Stairs.001
-    2300000: Brickwall 01.007
-    2300002: Stairs.001
-    3300000: Brickwall 01.007
-    3300002: Stairs.001
-    4300000: Stairs.001
-    4300002: Brickwall 01.007
+    100000: Castle Wall
+    100002: Castle Wall Collider
+    100004: //RootNode
+    400000: Castle Wall
+    400002: Castle Wall Collider
+    400004: //RootNode
+    2300000: Castle Wall
+    2300002: Castle Wall Collider
+    3300000: Castle Wall
+    3300002: Castle Wall Collider
+    4300000: Castle Wall
+    4300002: Castle Wall Collider
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 441f62fdaf0de470e8bea4911f498d8f, type: 2}
+    second: {fileID: 2100000, guid: 7cb70c7e75b5e46889576a6eb9927c20, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
