@@ -356,11 +356,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -7.75
+      value: -7.88
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 52.33
+      value: 50.98
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1099,8 +1099,6 @@ Transform:
   - {fileID: 1816061051}
   - {fileID: 1611517518}
   - {fileID: 113090374}
-  - {fileID: 944668160}
-  - {fileID: 1060528432}
   m_Father: {fileID: 725461286}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1416,7 +1414,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 40.9
+      value: 39.55
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2242,69 +2240,6 @@ Transform:
   m_Father: {fileID: 1109255062}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &944668159
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 447331342}
-    m_Modifications:
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -7.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -7.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 52.200005
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_RootOrder
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1692960712933114, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_Name
-      value: Castle Wall (15)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.0000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.0000005
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &944668160 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8,
-    type: 2}
-  m_PrefabInternal: {fileID: 944668159}
 --- !u!1001 &948397258
 Prefab:
   m_ObjectHideFlags: 0
@@ -2435,69 +2370,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4989037227883306, guid: af5261163e6e945448267be56a11a9bb,
     type: 2}
   m_PrefabInternal: {fileID: 886901468}
---- !u!1001 &1060528431
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 447331342}
-    m_Modifications:
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 5.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -7.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 52.33
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_RootOrder
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1692960712933114, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_Name
-      value: Castle Wall (16)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.0000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.0000005
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &1060528432 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8,
-    type: 2}
-  m_PrefabInternal: {fileID: 1060528431}
 --- !u!4 &1093000802 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4445539274604360, guid: 9d26dfa1f2a094a41bbf72a18cbde7af,
@@ -3210,11 +3082,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -7.75
+      value: -7.88
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 52.200005
+      value: 50.850002
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalRotation.x
@@ -3599,7 +3471,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 41.03
+      value: 39.679996
       objectReference: {fileID: 0}
     - target: {fileID: 4821356751921192, guid: a1567cba2f8f14e1ba6fe29bf601ebb8, type: 2}
       propertyPath: m_LocalRotation.x
