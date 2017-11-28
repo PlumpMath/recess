@@ -30,12 +30,13 @@ namespace Vital{
         private float MovementSpeed;
         private float jumpStartTime;
         private float JumpHeight = 1;
-        private float JumpHeightRunning = 1.2f;
         private float PowerUpTime;
         private int StarCount;
+        private bool isSloped;
         private List<GameObject> Collectibles;
         private List<GameObject> PowerUps;
         private GameObject _standingOn;
+        private Vector3 hitNormal;
 
         public GameObject StandingOn {
             get { return _standingOn; }
@@ -139,13 +140,17 @@ namespace Vital{
 
             if (Input.GetButton("Fire3")) {
                 MovementSpeed = movementSettings.RunSpeed;
-                JumpHeight = JumpHeightRunning;
             } else {
                 MovementSpeed = movementSettings.WalkSpeed;
             }
 
-            moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * JumpHeight), (moveDirection.z * MovementSpeed));
+            // Move faster down slopes
+            if (character.isGrounded && isSloped) {
+                //float slideSpeed = 20f;
+                //moveDirection.y = (dY * Time.deltaTime) * slideSpeed;
+            }
 
+            moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * JumpHeight), (moveDirection.z * MovementSpeed));
             character.Move(moveDirection);
         }
 
@@ -235,7 +240,6 @@ namespace Vital{
                     PowerUpTime = 20f;
 
                     JumpHeight = JumpHeight * 2;
-                    JumpHeightRunning = JumpHeightRunning * 2;
                     movementSettings.JumpSpeed = movementSettings.JumpSpeed / 2;
                     movementSettings.FallSpeed = movementSettings.FallSpeed / 2;
                     movementSettings.JumpTime = movementSettings.JumpTime * 2;
@@ -263,17 +267,19 @@ namespace Vital{
 
         void PowerDownMoonShoes() {
             JumpHeight = JumpHeight / 2;
-            JumpHeightRunning = JumpHeightRunning / 2;
             movementSettings.JumpSpeed = movementSettings.JumpSpeed * 2;
             movementSettings.FallSpeed = movementSettings.FallSpeed * 2;
             movementSettings.JumpTime = movementSettings.JumpTime / 2;
         }
 
-
-        // Push gameObjects
         void OnControllerColliderHit(ControllerColliderHit hit) {
             Rigidbody other = hit.collider.attachedRigidbody;
-
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            Vector3 forceDir = Vector3.down * movementSettings.Weight;
+            hitNormal = hit.normal;
+            isSloped = (Vector3.Angle (Vector3.up, hitNormal) >= character.slopeLimit);
+            
+            // Push gameObjects
             if (hit.moveDirection.y < -0.3f) {
                 StandingOn = hit.collider.gameObject;
                 CameraController.GroundLevel = transform.position.y;
@@ -281,9 +287,6 @@ namespace Vital{
 
             if (other == null || other.isKinematic)
                 return;
-
-            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-            Vector3 forceDir = Vector3.down * movementSettings.Weight;
 
             if(IsJumping) {
                 forceDir = Vector3.up * 10.0f ;
@@ -293,6 +296,11 @@ namespace Vital{
 
             // Apply force while standing on or jumping into objects
             other.AddForceAtPosition(forceDir * movementSettings.PushPower, transform.position, ForceMode.Force);
+
+            // If hit broken fence, bust through dat shit.
+            if(hit.gameObject.name == "Broken Board") {
+                other.constraints = RigidbodyConstraints.None;
+            }
         }
     }
 }
