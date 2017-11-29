@@ -8,8 +8,11 @@ public class HoldableItem : NetworkBehaviour
     private Rigidbody rb;
     private NetworkIdentity networkIdentity;
 
-    public delegate void Thrown();
+    public delegate void Thrown(GameObject thrower);
     public event Thrown OnThrown;
+
+    public delegate void Grabbed(GameObject owner);
+    public event Grabbed OnGrabbed;
 
     [SyncVar]
     GameObject Owner;
@@ -28,6 +31,7 @@ public class HoldableItem : NetworkBehaviour
     public HoldableItem PickUp(GameObject owner)
     {
         CmdPickUp(owner);
+        OnGrabbed(owner);
 		return this;
     }
 
@@ -50,7 +54,7 @@ public class HoldableItem : NetworkBehaviour
     public HoldableItem Release(Vector3 TossDirection)
     {
         CmdRelease(TossDirection);
-        OnThrown();
+        OnThrown(Owner);
         return this;
     }
 
