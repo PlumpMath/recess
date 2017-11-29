@@ -5,11 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class TextController : MonoBehaviour {
+    private bool ShowScoreboard;
+    public GameObject Scoreboard;
 
-    public static TextController instance;
+    void Update(){
+        ShowScoreboard = Input.GetKey(KeyCode.Tab);
+    }
 
-    void Awake() {
-        instance = this;
+    void OnGUI(){
+        Scoreboard.SetActive(ShowScoreboard);
     }
 
 

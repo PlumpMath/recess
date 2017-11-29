@@ -910,6 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31272dba8e7b05942946b7d65077517c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Scoreboard: {fileID: 1563851070877944}
 --- !u!222 &222028972168851476
 CanvasRenderer:
   m_ObjectHideFlags: 1
