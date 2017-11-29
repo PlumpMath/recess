@@ -17,6 +17,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/Dev.unity
     guid: 4787fe7a9d6ff41d582dcb081159068d
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/Matt.unity
     guid: af6beda6efd0740d4895a0c0199ac635
