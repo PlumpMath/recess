@@ -9,7 +9,9 @@ public class TextController : MonoBehaviour {
     public GameObject Scoreboard;
 
     void Update(){
-        ShowScoreboard = Input.GetKey(KeyCode.Tab);
+        if(Input.GetKeyDown(KeyCode.Tab)){
+            ShowScoreboard = !ShowScoreboard;
+        }
     }
 
     void OnGUI(){
