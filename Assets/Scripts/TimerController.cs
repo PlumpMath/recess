@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class TimerController : MonoBehaviour {
-     float TimeLeft = 300.0f;
-     
+public class TimerController : NetworkBehaviour {
+     float TimeLeft = 120.0f;
+
      public Text Timer;
      private float Minutes;
      private float Seconds;
-     
+
      void Update() {
 
          TimeLeft -= Time.deltaTime;
@@ -27,6 +28,11 @@ public class TimerController : MonoBehaviour {
 
     public void GameOver() {
         Timer.text = "GameOver";
+        Invoke("BackToLobby", 6.0f);
+    }
+
+    private void BackToLobby(){
+        FindObjectOfType<NetworkLobbyManager>().SendReturnToLobby();
     }
 
  }
