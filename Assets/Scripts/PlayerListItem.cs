@@ -15,7 +15,7 @@ public class PlayerListItem : MonoBehaviour {
 
             NameField.text = _player.PlayerName;
             ColorChip.color = _player.PlayerColor;
-            ScoreField.text = "10";
+            ScoreField.text = _player.StarCount.ToString();
         }
     }
 

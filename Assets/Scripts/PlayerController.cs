@@ -31,7 +31,6 @@ namespace Vital{
         private float jumpStartTime;
         private float JumpHeight = 1;
         private float PowerUpTime;
-        private int StarCount;
         private bool isSloped;
         private List<GameObject> Collectibles;
         private List<GameObject> PowerUps;
@@ -49,6 +48,13 @@ namespace Vital{
 
         [SyncVar (hook = "OnNameChanged")] public string PlayerName;
         [SyncVar (hook = "OnColorChanged")] public Color PlayerColor;
+        [SyncVar (hook = "OnScoreChanged")] public int StarCount;
+
+
+        [Command]
+        void CmdGetStars(int stars){
+            StarCount += stars;
+        }
 
         [SerializeField] ToggleEvent onToggleShared;
         [SerializeField] ToggleEvent onToggleLocal;
@@ -65,6 +71,10 @@ namespace Vital{
         void OnColorChanged(Color value){
             PlayerColor = value;
             GetComponent<MeshRenderer>().material.color = PlayerColor;
+        }
+
+        void OnScoreChanged(int value){
+            Debug.LogFormat("Set star count to {0}", value);
         }
 
         private bool IsJumping = false;
@@ -95,7 +105,7 @@ namespace Vital{
             if(!isLocalPlayer){
                 return;
             }
-            
+
             Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
             Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
 
@@ -200,25 +210,26 @@ namespace Vital{
             Collectible c = other.GetComponent<Collectible>();
             PowerUp p = other.GetComponent<PowerUp>();
 
-            if (c) {
+            if (c && isServer) {
                 GetCollectible(other);
                 c.PickMeUp();
 
-                if (c.name == "Gold Star") {
-                    StarCount = StarCount + 1;
-                    c.AddStars(StarCount);
+                if(isServer){
+                    switch (c.name)
+                    {
+                        case "Gold Star":
+                            CmdGetStars(1);
+                            break;
+                        case "Green Star":
+                            CmdGetStars(2);
+                            break;
+                        case "Red Star":
+                            CmdGetStars(5);
+                            break;
+                    }
                 }
 
-                if (c.name == "Green Star") {
-                    StarCount = StarCount + 2;
-                    c.AddStars(StarCount);
-                }
-
-                if (c.name == "Red Star") {
-                    StarCount = StarCount + 5;
-                    c.AddStars(StarCount);
-                }
-
+                c.AddStars(StarCount);
             }
 
             if (p) {
@@ -278,7 +289,7 @@ namespace Vital{
             Vector3 forceDir = Vector3.down * movementSettings.Weight;
             hitNormal = hit.normal;
             isSloped = (Vector3.Angle (Vector3.up, hitNormal) >= character.slopeLimit);
-            
+
             // Push gameObjects
             if (hit.moveDirection.y < -0.3f) {
                 StandingOn = hit.collider.gameObject;
