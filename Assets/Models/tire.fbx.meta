@@ -1,21 +1,28 @@
 fileFormatVersion: 2
-guid: 28817bc1d29e7488bade2be35c3c49cd
-timeCreated: 1510752384
-licenseType: Free
+guid: e80ed9f1cf32e42adb9579018ebf0bde
+timeCreated: 1512068468
+licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Torus.001
+    100000: Tire
+    100002: //RootNode
+    100004: Tire Collider
+    400000: Tire
+    400002: //RootNode
+    400004: Tire Collider
+    2300000: Tire
+    2300002: Tire Collider
+    3300000: Tire
+    3300002: Tire Collider
+    4300000: Tire Collider
+    4300002: Tire
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 441f62fdaf0de470e8bea4911f498d8f, type: 2}
+    second: {fileID: 2100000, guid: a8711bdcc413e4cd88ed511d261ca30b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
