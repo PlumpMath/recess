@@ -510,9 +510,9 @@ MonoBehaviour:
     m_Bottom: 20
   m_ChildAlignment: 0
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 1
 --- !u!114 &114598562701100064
 MonoBehaviour:
