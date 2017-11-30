@@ -31,7 +31,11 @@ public class HoldableItem : NetworkBehaviour
     public HoldableItem PickUp(GameObject owner)
     {
         CmdPickUp(owner);
-        OnGrabbed(owner);
+
+        if(OnGrabbed != null) {
+            OnGrabbed(owner);
+        }
+
 		return this;
     }
 
@@ -54,7 +58,11 @@ public class HoldableItem : NetworkBehaviour
     public HoldableItem Release(Vector3 TossDirection)
     {
         CmdRelease(TossDirection);
-        OnThrown(Owner);
+
+        if(OnThrown != null) {
+            OnThrown(Owner);
+        }
+        
         return this;
     }
 
