@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114868200066406394}
   - component: {fileID: 114257990630311896}
   m_Layer: 8
-  m_Name: Tire
+  m_Name: tire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
