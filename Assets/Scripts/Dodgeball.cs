@@ -29,9 +29,12 @@ public class Dodgeball : MonoBehaviour {
 	void OnCollisionEnter(Collision other){
 		bounce.Play();
 		if(IsHot){
-            if (other.gameObject.tag == "Player")
-            {
+            if (other.gameObject.tag == "Player") {
                 HitPlayer(other.gameObject);
+            }
+
+			if(other.gameObject.name == "Broken Board") {
+				other.collider.attachedRigidbody.constraints = RigidbodyConstraints.None;
             }
 
             Debug.LogFormat("Ball hit {0}, no longer hot", other.gameObject.name);
