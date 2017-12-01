@@ -19,9 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4748185818447360}
+  - component: {fileID: 135803721845316904}
+  - component: {fileID: 114684810216944414}
+  - component: {fileID: 114728345969020678}
   m_Layer: 0
   m_Name: Red Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: -982381405332843317, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,8 +42,6 @@ GameObject:
   - component: {fileID: 199356091674914032}
   - component: {fileID: 198946828595383138}
   - component: {fileID: 95480572896430072}
-  - component: {fileID: 65118300960729254}
-  - component: {fileID: 114984005496023322}
   m_Layer: 0
   m_Name: Red Star
   m_TagString: Untagged
@@ -116,18 +117,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1836945218545724}
   m_Mesh: {fileID: 4300000, guid: 9e491aa52bad743e28318e5061b94098, type: 3}
---- !u!65 &65118300960729254
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1836945218545724}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.012081651, y: 0.0019349328, z: 0.01148791}
-  m_Center: {x: -6.9849193e-10, y: 0, z: 0.00060640567}
 --- !u!95 &95480572896430072
 Animator:
   serializedVersion: 3
@@ -145,17 +134,62 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114984005496023322
+--- !u!114 &114684810216944414
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1836945218545724}
+  m_GameObject: {fileID: 1132059697098486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 196
+    i1: 79
+    i2: 73
+    i3: 209
+    i4: 75
+    i5: 117
+    i6: 2
+    i7: 84
+    i8: 168
+    i9: 67
+    i10: 175
+    i11: 213
+    i12: 80
+    i13: 192
+    i14: 133
+    i15: 253
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114728345969020678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132059697098486}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c814f900ebdd14220aa6d388075c50bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PointValue: 5
+--- !u!135 &135803721845316904
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132059697098486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.69
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198946828595383138
 ParticleSystem:
   m_ObjectHideFlags: 1

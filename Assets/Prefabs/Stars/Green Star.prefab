@@ -24,8 +24,6 @@ GameObject:
   - component: {fileID: 199773877030895340}
   - component: {fileID: 198915290008474458}
   - component: {fileID: 95628061567129782}
-  - component: {fileID: 65828102507848188}
-  - component: {fileID: 114354092452048452}
   m_Layer: 0
   m_Name: Green Star
   m_TagString: Untagged
@@ -41,9 +39,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4174936144543278}
+  - component: {fileID: 135780983834153702}
+  - component: {fileID: 114343753806856212}
+  - component: {fileID: 114410926064566474}
   m_Layer: 0
   m_Name: Green Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: -982381405332843317, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,18 +117,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1628725239145392}
   m_Mesh: {fileID: 4300000, guid: 9e491aa52bad743e28318e5061b94098, type: 3}
---- !u!65 &65828102507848188
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1628725239145392}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.012081651, y: 0.0019349328, z: 0.01148791}
-  m_Center: {x: -6.9849193e-10, y: 0, z: 0.00060640567}
 --- !u!95 &95628061567129782
 Animator:
   serializedVersion: 3
@@ -145,17 +134,62 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114354092452048452
+--- !u!114 &114343753806856212
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1628725239145392}
+  m_GameObject: {fileID: 1654414170616512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 68
+    i1: 142
+    i2: 211
+    i3: 111
+    i4: 161
+    i5: 13
+    i6: 100
+    i7: 202
+    i8: 235
+    i9: 108
+    i10: 235
+    i11: 56
+    i12: 9
+    i13: 140
+    i14: 123
+    i15: 206
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114410926064566474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654414170616512}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c814f900ebdd14220aa6d388075c50bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PointValue: 2
+--- !u!135 &135780983834153702
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654414170616512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.69
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198915290008474458
 ParticleSystem:
   m_ObjectHideFlags: 1
