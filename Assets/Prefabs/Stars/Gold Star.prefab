@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c814f900ebdd14220aa6d388075c50bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Active: 1
   PointValue: 1
 --- !u!135 &135174135583272144
 SphereCollider:
