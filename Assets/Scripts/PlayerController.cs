@@ -152,16 +152,10 @@ namespace Vital{
             }
             moveDirection.y = dY * Time.deltaTime;
 
-            if (Input.GetButton("Fire3")) {
+            if (character.isGrounded && Input.GetButton("Fire3")) {
                 MovementSpeed = movementSettings.RunSpeed;
             } else {
                 MovementSpeed = movementSettings.WalkSpeed;
-            }
-
-            // Move faster down slopes
-            if (character.isGrounded && isSloped) {
-                //float slideSpeed = 20f;
-                //moveDirection.y = (dY * Time.deltaTime) * slideSpeed;
             }
 
             moveDirection = new Vector3((moveDirection.x * MovementSpeed), (moveDirection.y * JumpHeight), (moveDirection.z * MovementSpeed));
