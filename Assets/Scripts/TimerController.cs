@@ -32,7 +32,12 @@ public class TimerController : NetworkBehaviour {
     }
 
     private void BackToLobby(){
-        FindObjectOfType<NetworkLobbyManager>().SendReturnToLobby();
+        NetworkLobbyManager lm = FindObjectOfType<NetworkLobbyManager>();
+        if(isServer){
+            lm.ServerReturnToLobby();
+        } else {
+            lm.SendReturnToLobby();
+        }
     }
 
  }

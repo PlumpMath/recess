@@ -9,6 +9,19 @@ public class Collectible : NetworkBehaviour {
     [SyncVar (hook="OnVisibleChanged")]
     private bool visible;
 
+    private bool _active = false;
+    public bool Active{
+        get { return _active; }
+        set {
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            _active = value;
+            rb.isKinematic = _active;
+            rb.useGravity = !_active;
+            GetComponent<Collider>().isTrigger = _active;
+        }
+    }
+
     public int PointValue;
 
     public override void OnStartServer(){
@@ -35,6 +48,17 @@ public class Collectible : NetworkBehaviour {
 	}
 
     public void PickMeUp(){
+        if(!Active){
+            return;
+        }
         CmdPickMeUp();
+    }
+
+    void OnCollisionEnter(Collision other){
+        Debug.LogFormat("Collision with star and {0}", other.gameObject.name);
+        if(!Active){
+            Debug.Log("ACTIVATE IT!");
+            Active = true;
+        }
     }
 }

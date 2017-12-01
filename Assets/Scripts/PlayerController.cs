@@ -114,6 +114,11 @@ namespace Vital{
                 return;
             }
 
+
+            if(Input.GetKeyDown(KeyCode.P)){
+                DropStar(Vector3.up);
+            }
+
             Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
             Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
 
@@ -166,6 +171,30 @@ namespace Vital{
             character.Move(moveDirection);
         }
 
+        public GameObject star;
+
+        public GameObject DropStar(Vector3 direction){
+            Debug.Log("DROP A STAR!");
+            if(StarCount < 1){
+                Debug.Log(" oh you don't have any, nevermind");
+                return null;
+            } else {
+
+                GameObject droppedStar = Instantiate(star, transform.position, Quaternion.identity);
+                Rigidbody starBody = droppedStar.GetComponent<Rigidbody>();
+                starBody.isKinematic = false;
+                starBody.useGravity = true;
+                starBody.AddForce(direction * 8.0f, ForceMode.Impulse);
+
+
+
+                NetworkServer.Spawn(droppedStar);
+                GetStars(-1);
+
+                return droppedStar;
+            }
+        }
+
         void Jump()
         {
             IsJumping = true;
@@ -213,7 +242,7 @@ namespace Vital{
 
             if (c) {
                 c.PickMeUp();
-                if(isLocalPlayer){
+                if(isLocalPlayer && c.Active){
                     AudioSource a = other.GetComponent<AudioSource>();
                     if(a != null){
                         a.Play();

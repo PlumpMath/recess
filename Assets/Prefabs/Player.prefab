@@ -478,6 +478,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: ToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  star: {fileID: 1958936273974992, guid: 1d77cdbe1878249d0ba70ecb785581a2, type: 2}
 --- !u!114 &114966155399277714
 MonoBehaviour:
   m_ObjectHideFlags: 1

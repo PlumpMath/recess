@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 82952912447950554}
   - component: {fileID: 54294797056425672}
   m_Layer: 0
-  m_Name: Gold Star
+  m_Name: Dropped Star
   m_TagString: Star
   m_Icon: {fileID: -982381405332843317, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -245,22 +245,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 3
-    i1: 181
-    i2: 36
-    i3: 179
-    i4: 64
-    i5: 5
-    i6: 68
-    i7: 163
-    i8: 89
-    i9: 139
-    i10: 180
-    i11: 159
-    i12: 143
-    i13: 26
-    i14: 63
-    i15: 154
+    i0: 29
+    i1: 119
+    i2: 205
+    i3: 190
+    i4: 24
+    i5: 120
+    i6: 36
+    i7: 157
+    i8: 11
+    i9: 167
+    i10: 14
+    i11: 203
+    i12: 120
+    i13: 85
+    i14: 129
+    i15: 162
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114143199738599578
@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c814f900ebdd14220aa6d388075c50bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   PointValue: 1
 --- !u!135 &135174135583272144
 SphereCollider:
