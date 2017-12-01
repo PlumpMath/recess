@@ -36,6 +36,7 @@ namespace Vital{
         private GameObject _standingOn;
         private Vector3 hitNormal;
         private Text StarCountField;
+        private AudioSource jumpSound;
 
         public GameObject StandingOn {
             get { return _standingOn; }
@@ -92,7 +93,10 @@ namespace Vital{
             PowerUps = new List<GameObject>();
             StarCountField = GameObject.Find("Star Count").GetComponent<Text>();
             StarCount = 0;
+
+            jumpSound = GetComponent<AudioSource>();
         }
+
 
         void Start(){
             GetComponent<MeshRenderer>().material.color = PlayerColor;
@@ -167,6 +171,9 @@ namespace Vital{
             IsJumping = true;
             jumpStartTime = Time.time;
             StandingOn = null;
+            if(isLocalPlayer){
+                jumpSound.Play();
+            }
             Invoke("FinishJump", movementSettings.JumpTime);
         }
 
