@@ -212,6 +212,12 @@ namespace Vital{
 
             if (c) {
                 c.PickMeUp();
+                if(isLocalPlayer){
+                    AudioSource a = other.GetComponent<AudioSource>();
+                    if(a != null){
+                        a.Play();
+                    }
+                }
                 GetStars(c.PointValue);
             }
 
