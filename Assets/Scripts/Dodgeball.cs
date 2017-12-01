@@ -44,5 +44,6 @@ public class Dodgeball : MonoBehaviour {
 
 	void HitPlayer(GameObject player){
 		Debug.LogFormat("{0} was hit by a dodgeball!", player.name);
+		player.GetComponent<Vital.PlayerController>().DropStar();
 	}
 }

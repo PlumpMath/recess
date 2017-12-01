@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c814f900ebdd14220aa6d388075c50bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 0
+  Active: 0
   PointValue: 1
 --- !u!135 &135174135583272144
 SphereCollider:
@@ -283,7 +283,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1958936273974992}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.69

@@ -116,7 +116,7 @@ namespace Vital{
 
 
             if(Input.GetKeyDown(KeyCode.P)){
-                DropStar(Vector3.up);
+                DropStar();
             }
 
             Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
@@ -173,18 +173,18 @@ namespace Vital{
 
         public GameObject star;
 
-        public GameObject DropStar(Vector3 direction){
+        public GameObject DropStar(){
             Debug.Log("DROP A STAR!");
             if(StarCount < 1){
                 Debug.Log(" oh you don't have any, nevermind");
                 return null;
             } else {
 
-                GameObject droppedStar = Instantiate(star, transform.position, Quaternion.identity);
+                GameObject droppedStar = Instantiate(star, transform.position + Vector3.up * 2.0f, Quaternion.identity);
                 Rigidbody starBody = droppedStar.GetComponent<Rigidbody>();
                 starBody.isKinematic = false;
                 starBody.useGravity = true;
-                starBody.AddForce(direction * 8.0f, ForceMode.Impulse);
+                starBody.AddForce(Vector3.up * 8.0f, ForceMode.Impulse);
 
 
 
