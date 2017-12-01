@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4685548872873450}
   - component: {fileID: 33266463846134602}
   - component: {fileID: 23407397617060594}
+  - component: {fileID: 64090726424172422}
   m_Layer: 0
   m_Name: Horse
   m_TagString: Untagged
@@ -120,8 +121,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1068063263318458}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -23.37339, y: -1.324997, z: -96.852234}
-  m_LocalScale: {x: 100, y: 99.99997, z: 99.99997}
+  m_LocalPosition: {x: -31.15, y: -1.324997, z: -96.96393}
+  m_LocalScale: {x: 100, y: 99.99991, z: 99.99991}
   m_Children:
   - {fileID: 4811901904705970}
   m_Father: {fileID: 0}
@@ -442,3 +443,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887331559362980}
   m_Mesh: {fileID: 4300008, guid: e41aea026565f45f189bf23d86c6e2a2, type: 3}
+--- !u!64 &64090726424172422
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1017136287284214}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_InflateMesh: 0
+  m_SkinWidth: 1.00000005e-20
+  m_Mesh: {fileID: 4300004, guid: e41aea026565f45f189bf23d86c6e2a2, type: 3}
