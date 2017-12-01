@@ -114,11 +114,6 @@ namespace Vital{
                 return;
             }
 
-
-            if(Input.GetKeyDown(KeyCode.P)){
-                DropStar();
-            }
-
             Vector3 moveDirection = GetInputRelativeToCamera() * Time.deltaTime;
             Vector3 lookAt = new Vector3(moveDirection.x, 0, moveDirection.z);
 
@@ -185,8 +180,6 @@ namespace Vital{
                 starBody.isKinematic = false;
                 starBody.useGravity = true;
                 starBody.AddForce(Vector3.up * 8.0f, ForceMode.Impulse);
-
-
 
                 NetworkServer.Spawn(droppedStar);
                 GetStars(-1);
