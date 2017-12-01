@@ -50,9 +50,18 @@ public class HoldableItem : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcPickUp(GameObject owner){
+    public void RpcPickUp(GameObject owner) {
+
         Owner = owner;
         rb.isKinematic = true;
+
+        Vector3 p = rb.position;
+        p.y += p.y + 0.25f;
+
+        if (p.y <= 1) {
+            rb.position = p;
+        }
+
     }
 
     public HoldableItem Release(Vector3 TossDirection)
