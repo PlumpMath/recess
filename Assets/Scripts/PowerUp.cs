@@ -13,7 +13,11 @@ public class PowerUp : MonoBehaviour {
     public void ActivatePower(GameObject BoostIcon, float PowerUpTime) {
         BoostIcon = BoostIcon.transform.Find("Boost Active").gameObject;
         float TimeTotal = PowerUpTime;
-        GetComponent<MeshRenderer>().enabled = false;
+
+        foreach (Transform child in transform) {
+            child.GetComponent<MeshRenderer>().enabled = false;
+        }
+        
         GetComponent<Collider>().enabled = false;
         StartCoroutine(PowerUpIcon(BoostIcon, TimeTotal));
     }

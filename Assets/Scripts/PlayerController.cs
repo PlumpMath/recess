@@ -222,8 +222,8 @@ namespace Vital{
                     GameObject BoostIcon = GameObject.Find("Speed Boost");
                     PowerUpTime = 10f;
 
-                    movementSettings.WalkSpeed = movementSettings.WalkSpeed * 3;
-                    movementSettings.RunSpeed = movementSettings.RunSpeed * 3;
+                    movementSettings.WalkSpeed = movementSettings.WalkSpeed * 2;
+                    movementSettings.RunSpeed = movementSettings.RunSpeed * 2;
 
                     p.ActivatePower(BoostIcon, PowerUpTime);
                     StartCoroutine(PowerUpPumps());
@@ -255,8 +255,8 @@ namespace Vital{
         }
 
         void PowerDownPumps() {
-            movementSettings.WalkSpeed = movementSettings.WalkSpeed / 3;
-            movementSettings.RunSpeed = movementSettings.RunSpeed / 3;
+            movementSettings.WalkSpeed = movementSettings.WalkSpeed / 2;
+            movementSettings.RunSpeed = movementSettings.RunSpeed / 2;
         }
 
         void PowerDownMoonShoes() {
