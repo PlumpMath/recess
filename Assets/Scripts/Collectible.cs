@@ -4,25 +4,37 @@ using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Collectible : MonoBehaviour {
-    private Image StarIcon;
-    private Text StarCountLabel;
-    private int StarCount;
-    private float TotalStars;
+public class Collectible : NetworkBehaviour {
 
-    public void PickMeUp(){
-		GetComponent<MeshRenderer>().enabled = false;
-		GetComponent<Collider>().enabled = false;
-        GetComponent<ParticleSystem>().Stop();
+    [SyncVar (hook="OnVisibleChanged")]
+    private bool visible;
+
+    public int PointValue;
+
+    public override void OnStartServer(){
+        visible = true;
+    }
+
+    public override void OnStartClient(){
+        OnVisibleChanged(visible);
+    }
+
+    void OnVisibleChanged(bool isVisible){
+        GetComponent<Collider>().enabled = isVisible;
+        GetComponentInChildren<MeshRenderer>().enabled = isVisible;
+        if(isVisible){
+            GetComponentInChildren<ParticleSystem>().Play();
+        } else {
+            GetComponentInChildren<ParticleSystem>().Stop();
+        }
+    }
+
+    [Command]
+    public void CmdPickMeUp(){
+        visible = false;
 	}
 
-    public void AddStars(int StarCount) {
-        GameObject Star = GameObject.Find("Star Full");
-        GameObject StarCountLabel = GameObject.Find("Star Count");
-        StarIcon = Star.GetComponent<Image>();
-        StarIcon.fillAmount = 100;
-        StarCountLabel.GetComponent<Text>().enabled = true;
-        StarCountLabel.GetComponent<Text>().text = StarCount.ToString();
-        Debug.Log(StarCount);
+    public void PickMeUp(){
+        CmdPickMeUp();
     }
 }

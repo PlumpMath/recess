@@ -11,7 +11,6 @@ public class PlayerListItem : MonoBehaviour {
         set
         {
             _player = value;
-            Debug.LogFormat("Set list item player to {0}", value.gameObject.name);
 
             NameField.text = _player.PlayerName;
             ColorChip.color = _player.PlayerColor;

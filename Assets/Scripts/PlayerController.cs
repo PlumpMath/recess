@@ -32,10 +32,10 @@ namespace Vital{
         private float JumpHeight = 1;
         private float PowerUpTime;
         private bool isSloped;
-        private List<GameObject> Collectibles;
         private List<GameObject> PowerUps;
         private GameObject _standingOn;
         private Vector3 hitNormal;
+        private Text StarCountField;
 
         public GameObject StandingOn {
             get { return _standingOn; }
@@ -51,10 +51,6 @@ namespace Vital{
         [SyncVar (hook = "OnScoreChanged")] public int StarCount;
 
 
-        [Command]
-        void CmdGetStars(int stars){
-            StarCount += stars;
-        }
 
         [SerializeField] ToggleEvent onToggleShared;
         [SerializeField] ToggleEvent onToggleLocal;
@@ -73,8 +69,17 @@ namespace Vital{
             GetComponent<MeshRenderer>().material.color = PlayerColor;
         }
 
+        void GetStars(int stars){
+            StarCount += stars;
+        }
+
         void OnScoreChanged(int value){
             Debug.LogFormat("Set star count to {0}", value);
+            if(isLocalPlayer){
+                StarCountField.text = value.ToString();
+            } else {
+                StarCount = value;
+            }
         }
 
         private bool IsJumping = false;
@@ -84,9 +89,8 @@ namespace Vital{
             character = GetComponent<CharacterController>();
             hand = GetComponent<HandController>();
             CameraController = GetComponent<CameraFollow>();
-
-            Collectibles = new List<GameObject>();
             PowerUps = new List<GameObject>();
+            StarCountField = GameObject.Find("Star Count").GetComponent<Text>();
             StarCount = 0;
         }
 
@@ -197,10 +201,6 @@ namespace Vital{
             return forward * verticalAxis + right * horizontalAxis;
         }
 
-        void GetCollectible(GameObject c){
-            Collectibles.Add(c);
-        }
-
         void GetPowerUp(GameObject p) {
             PowerUps.Add(p);
         }
@@ -210,26 +210,9 @@ namespace Vital{
             Collectible c = other.GetComponent<Collectible>();
             PowerUp p = other.GetComponent<PowerUp>();
 
-            if (c && isServer) {
-                GetCollectible(other);
+            if (c) {
                 c.PickMeUp();
-
-                if(isServer){
-                    switch (c.name)
-                    {
-                        case "Gold Star":
-                            CmdGetStars(1);
-                            break;
-                        case "Green Star":
-                            CmdGetStars(2);
-                            break;
-                        case "Red Star":
-                            CmdGetStars(5);
-                            break;
-                    }
-                }
-
-                c.AddStars(StarCount);
+                GetStars(c.PointValue);
             }
 
             if (p) {

@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class TextController : MonoBehaviour {
     private bool ShowScoreboard;
     public GameObject Scoreboard;
+    public Text StarCount;
 
     void Update(){
         if(Input.GetKeyDown(KeyCode.Tab)){
@@ -17,6 +18,4 @@ public class TextController : MonoBehaviour {
     void OnGUI(){
         Scoreboard.SetActive(ShowScoreboard);
     }
-
-
 }
