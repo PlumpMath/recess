@@ -78,9 +78,9 @@ namespace Vital{
             Debug.LogFormat("Set star count to {0}", value);
             if(isLocalPlayer){
                 StarCountField.text = value.ToString();
-            } else {
-                StarCount = value;
             }
+
+            StarCount = value;
         }
 
         private bool IsJumping = false;
