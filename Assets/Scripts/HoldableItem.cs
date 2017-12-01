@@ -56,9 +56,9 @@ public class HoldableItem : NetworkBehaviour
         rb.isKinematic = true;
 
         Vector3 p = rb.position;
-        p.y += p.y + 0.25f;
+        p.y = p.y + 0.35f;
 
-        if (p.y <= 1) {
+        if (p.y < owner.transform.position.y) {
             rb.position = p;
         }
 
